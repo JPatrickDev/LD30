@@ -1,5 +1,6 @@
 package me.jack.LD30.Entity;
 
+import me.jack.LD30.Item.Inventory;
 import me.jack.LD30.Item.Item;
 import me.jack.LD30.Level.Level;
 import me.jack.LD30.Particle.TreeBreakParticle;
@@ -13,6 +14,8 @@ import org.newdawn.slick.Graphics;
 public class Player extends Mob{
 
 
+
+    public Inventory i = new Inventory();
     public Player(int x, int y) {
         super(x, y);
         this.health = 20;
@@ -77,6 +80,8 @@ public class Player extends Mob{
 
 
             level.entities.add(new DroppedItem((tX * 128) + 64,(tY*128) + 64, Item.logs));
+            level.entities.add(new DroppedItem((tX * 128) + 64,(tY*128) + 64, Item.apple));
+
         }
 
 

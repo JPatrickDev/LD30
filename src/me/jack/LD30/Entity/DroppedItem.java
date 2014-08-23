@@ -11,15 +11,16 @@ import java.util.Random;
  */
 public class DroppedItem extends Entity{
 
-    private final double xa;
-    private final double ya;
+    private  double xa;
+    private  double ya;
     private Item i;
     public DroppedItem(int x, int y,Item item) {
         super(x, y);
         this.i = item;
         Random random = new Random();
-        xa = random.nextGaussian() * 0.1;
-        ya = random.nextGaussian() * 2;
+        xa = random.nextGaussian() * 5;
+        ya = random.nextGaussian() * 5;
+        if(random.nextBoolean())xa = -xa;
     }
 int time = 0;
     @Override
@@ -55,5 +56,6 @@ int time = 0;
     @Override
     public void steppedOn(Player p,Level level){
         level.entities.remove(this);
+        p.i.addItem(i,1);
     }
 }

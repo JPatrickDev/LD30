@@ -159,12 +159,12 @@ public class LevelGenerator {
 
     public static float[][] trees(int w, int h) {
         float[][] white = generateWhiteNoise(w, h, new Random());
-        float[][] perlin = generatePerlinNoise(white, 3, 0.2f);
+        float[][] perlin = generatePerlinNoise(white, 3, 0.7f);
 
         for (int x = 0; x != perlin.length; x++) {
             for (int y = 0; y != perlin[0].length; y++) {
                 float p = perlin[x][y];
-                if (p > 0.65) perlin[x][y] = 1;
+                if (p > 0.6) perlin[x][y] = 1;
                 else perlin[x][y] = 0;
             }
         }

@@ -1,5 +1,7 @@
 package me.jack.LD30.GUI;
 
+import me.jack.LD30.Item.Inventory;
+import me.jack.LD30.Item.ItemStack;
 import me.jack.LD30.Level.Level;
 import org.newdawn.slick.*;
 
@@ -37,5 +39,29 @@ public class HUD {
         for(int i = 0;i!= full_hearts;i++){
             g.drawImage(heart,(i*18),510);
         }
+
+
+
+
+        //draw inventory
+
+        Inventory i = l.p.i;
+
+        int startX = (gap_per_line) + 5;
+        int startY = 505;
+        for(ItemStack items : i.getItems()){
+            g.drawImage(items.getItem().getIcon(),startX + 5,startY);
+            Numbers.draw(items.getCount() + "",g,startX,startY);
+            startY += 38;
+
+        }
+
+
+
+
+        startX = gap_per_line*2;
+        startY = 505;
+
+        Text.drawLarge("Crafting",g,startX,startY);
     }
 }
