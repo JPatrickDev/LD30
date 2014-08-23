@@ -7,7 +7,7 @@ import uk.co.jdpatrick.JEngine.JEngine;
  */
 public class Main {
 
-    public static void main(String[] args){
-        JEngine.start(new LD30("NAME for LD30 --- Theme:Theme"),800,600);
+    public static void main(String[] args) {
+        JEngine.start(new LD30("NAME for LD30 --- Theme:Connected Worlds"), 500, 400);
     }
 }
