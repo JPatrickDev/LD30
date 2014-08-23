@@ -1,6 +1,7 @@
 package me.jack.LD30;
 
 import me.jack.LD30.GUI.HUD;
+import me.jack.LD30.Item.Item;
 import me.jack.LD30.Level.Level;
 import me.jack.LD30.Level.LevelGenerator;
 import me.jack.LD30.Level.Tile;
@@ -24,10 +25,20 @@ public class InGameState extends BasicGameState{
     }
 
     @Override
+    public void mouseClicked(int button, int x, int y, int clickCount) {
+        super.mouseClicked(button, x, y, clickCount);
+
+        if(button == 0){
+            l.p.click(x,y,l);
+        }
+    }
+
+    @Override
     public void init(GameContainer gameContainer, StateBasedGame stateBasedGame) throws SlickException {
         Tile.load();
         Level.initTiles();
         HUD.init();
+        Item.init();
     }
 
     @Override
@@ -40,6 +51,6 @@ public class InGameState extends BasicGameState{
 
     @Override
     public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int i) throws SlickException {
-            l.update();
+            l.update(gameContainer);
     }
 }

@@ -3,6 +3,8 @@ package me.jack.LD30.Entity;
 import me.jack.LD30.Level.Level;
 import org.newdawn.slick.Graphics;
 
+import java.awt.*;
+
 /**
  * Created by Jack on 23/08/2014.
  */
@@ -27,4 +29,6 @@ public abstract class Entity {
     public int getY() {
         return y;
     }
+
+    public  void steppedOn(Player player, Level level){}
 }

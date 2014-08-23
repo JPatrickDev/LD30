@@ -148,7 +148,11 @@ public class LevelGenerator {
             //valid = true;
         }
         long end = System.currentTimeMillis();
+
+        l.postGeneration();
         System.out.println("Level generation took: " + (end - start));
+
+
         return l;
     }
 
@@ -222,6 +226,41 @@ public class LevelGenerator {
                 return perlin;
             }
         }
+        return null;
+    }
+
+
+
+    public static Point findSpawnLocation(Level l){
+        Random r = new Random();
+
+
+        float[][] tiles = l.getTiles();
+        float[][] trees = l.getTrees();
+
+        boolean spawnFound = false;
+        int tries =0;
+
+        while(!spawnFound){
+            tries++;
+
+            int x = r.nextInt(l.getWidth());
+            int y = r.nextInt(l.getHeight());
+
+
+            float tileAttempt = tiles[x][y];
+
+            if(tileAttempt != 0)continue;
+
+            if(!surrounded(0,tiles,x,y,l.getWidth(),l.getHeight()))continue;
+
+            if(trees[x][y] != 0)continue;
+
+            System.out.println("Spawn point found");
+            spawnFound = true;
+            return new Point(x,y);
+        }
+
         return null;
     }
 
@@ -333,6 +372,8 @@ public class LevelGenerator {
                      }
                 }
             }
+
+            pixels[l.spawn.x + l.spawn.y * w] = Color.black.hashCode();
 
             image.setRGB(0, 0, w, h, pixels, 0, w);
 

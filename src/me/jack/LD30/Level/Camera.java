@@ -28,13 +28,13 @@ public class Camera {
 
 
     public void calculate(int tx,int ty){
-        x = tx - w/2;
-        y = ty - h/2;
+        x = tx - (w/2);
+        y = ty - (h/2);
 
         if(x > offsetMaxX)x = offsetMaxX;
         else if(x < offsetMinX)x = offsetMinX;
 
-        if(y > offsetMaxX)y = offsetMaxY;
+        if(y > offsetMaxY)y = offsetMaxY;
         else if(y < offsetMinY)y = offsetMinY;
     }
 
