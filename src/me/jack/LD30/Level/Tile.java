@@ -12,14 +12,15 @@ public class Tile {
 
 
     public Image sprite;
-
+    public boolean solid = false;
     public static SpriteSheet sprites;
 
     public static void load() throws SlickException {
-        sprites = new SpriteSheet(new Image("/res/sprites.png"),64,64);
+        sprites = new SpriteSheet(new Image("/res/sprites.png").getScaledCopy(2f),128,128);
     }
 
-    public Tile(int x,int y){
+    public Tile(int x,int y,boolean solid){
            sprite = sprites.getSprite(x,y);
+        this.solid = solid;
     }
 }
