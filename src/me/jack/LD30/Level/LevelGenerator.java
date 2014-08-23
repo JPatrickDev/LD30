@@ -106,7 +106,20 @@ public class LevelGenerator {
     }
 
 
+    public static float[][] group(float[][] noise){
+        float[][] grouped = new float[noise.length][noise[0].length];
 
+        for(int x = 0;x!= noise.length;x++){
+            for(int y = 0; y!= noise[0].length;y++){
+                float t = noise[x][y];
+                if(t > 0.5) t = 1;
+                else t = 0;
+
+                grouped[x][y] = t;
+            }
+        }
+        return grouped;
+    }
 
 
     public static void main(String[] args) {
@@ -130,7 +143,9 @@ public class LevelGenerator {
 
             float[][] whiteNoise = generateWhiteNoise(50,50,r);
 
-            float[][] perlin = generatePerlinNoise(whiteNoise,6);
+            float[][] perlin = generatePerlinNoise(whiteNoise,4);
+
+            perlin = group(perlin);
 
             int[] noise = null;
 
