@@ -1,0 +1,26 @@
+Theme: Connected worlds
+
+Survival game? ******************************************************
+
+- Have to go between worlds to get resources?
+- Have to collect items from each world
+- Collect resources to make weapons?
+- Some amount of random generation?
+- Need three keys from each world?
+- Zombies or something are roaming the world?
+- Minecraft style crafting and resource collection?
+- Need to kill a "boss" in each world to collect a key?
+
+- keys are used to open a area with the final boss in it? Killing boss wins the game?
+
+-randomly generated islands
+
+*************************************************************************************************
+
+Platformer
+
+- Fighting your way to the end of the level
+- You can jump between worlds/levels?
+
+
+
