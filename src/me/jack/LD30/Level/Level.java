@@ -100,7 +100,7 @@ public class Level implements TileBasedMap{
         pathFinder = new AStarPathFinder(this,50,false);
         Random r = new Random();
 
-        for(int i = 0;i!= 10;i++) {
+        for(int i = 0;i!= 30;i++) {
             int x = r.nextInt(getWidth());
             int y = r.nextInt(getHeight());
 
@@ -210,7 +210,8 @@ public class Level implements TileBasedMap{
     @Override
     public boolean blocked(PathFindingContext pathFindingContext, int i, int i2) {
         //System.out.println("Checking: " + i +  ":" + i2);
-       float t = getTiles()[i][i2];
+        if(i < 0 || i2 < 0)return false;
+        float t = getTiles()[i][i2];
         float tr = getTrees()[i][i2];
         boolean blocked = false;
 
