@@ -7,13 +7,13 @@ import org.newdawn.slick.util.pathfinding.Mover;
  */
 public abstract class Mob extends Entity implements Mover{
 
-    protected int health;
+    protected float health;
 
     public Mob(int x, int y) {
         super(x, y);
     }
 
-    public int getHealth(){
+    public float getHealth(){
         return health;
     }
 }

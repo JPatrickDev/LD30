@@ -31,4 +31,34 @@ public abstract class Entity {
     }
 
     public  void steppedOn(Player player, Level level){}
+
+    public abstract void notifyTouchedPlayer(Level parent);
+
+
+    public void knockback(Level l, int strength, int direction){
+        System.out.println("Knockback");
+
+        int xa = 0;
+        int ya = 0;
+            if(direction == 0){
+                    ya -= 32;
+
+            }else if(direction == 1){
+                    xa+=32;
+
+            }else if(direction == 2){
+
+                        ya+=32;
+                    }
+
+            else if(direction ==3){
+                xa-=32;
+            }
+
+        if(l.canMove(x+xa,y+ya,64,64,this)){
+            x+=xa;
+            y+=ya;
+        }
+    }
+
 }

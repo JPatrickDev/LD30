@@ -32,13 +32,14 @@ public class HUD {
 
         g.setColor(Color.white);
 
-        int health = l.p.getHealth();
+        float health = l.p.getHealth();
 
-        int full_hearts = health/2;
-
-        for(int i = 0;i!= full_hearts;i++){
-            g.drawImage(heart,(i*18),510);
+        int full_hearts = (int)health/2;
+    if(health > 0) {
+        for (int i = 0; i != full_hearts; i++) {
+            g.drawImage(heart, (i * 18), 510);
         }
+    }
 
 
 

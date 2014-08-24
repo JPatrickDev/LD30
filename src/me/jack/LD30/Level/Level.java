@@ -168,10 +168,33 @@ public class Level implements TileBasedMap{
 
     }
 
-    public boolean canMove(int x,int y,int w,int h){
+    public boolean canMove(int x,int y,int w,int h,Entity caller){
         Rectangle r = new Rectangle(x,y,w,h);
         for(Rectangle i : hitboxes){
             if(r.intersects(i))return false;
+        }
+
+        for(int xx= 0;xx!= trees.length;xx++){
+            for(int yy = 0;yy!= trees[0].length;yy++){
+                float t = trees[xx][yy];
+                if(t == 1){
+                    Rectangle tr = new Rectangle(xx*128,yy*128,128,128);
+                    if(r.intersects(tr))return false;
+                }
+            }
+        }
+
+        for(Entity e : entities){
+            if(e instanceof Zombie && e != caller){
+                Rectangle zombie = new Rectangle(e.getX(),e.getY(),64,64);
+                if(r.intersects(zombie))return false;
+            }
+        }
+
+        if(caller instanceof Zombie){
+            Rectangle player = new Rectangle(p.getX(),p.getY(),64,64);
+          if(player.intersects(r))  caller.notifyTouchedPlayer(this);
+            return !player.intersects(r);
         }
         return true;
     }

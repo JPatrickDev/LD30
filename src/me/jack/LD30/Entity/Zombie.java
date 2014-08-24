@@ -1,11 +1,11 @@
 package me.jack.LD30.Entity;
 
 import me.jack.LD30.Level.Level;
-import org.newdawn.slick.*;
-import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
 import org.newdawn.slick.util.pathfinding.Path;
+import uk.co.jdpatrick.JEngine.Particle.BloodParticle;
 
 import java.awt.*;
 import java.util.Random;
@@ -39,15 +39,17 @@ public class Zombie extends Mob {
     boolean nearPlayer = false;
 
 
+
     Path movement;
     int pos = 1;
+
     @Override
     public void update(Level level) {
 
         //todo Select two points near Zombie, patrol between them, If player comes within 5 tiles of Zombie, move towards him
         //todo Don't try to use a star to attack player, zombies are not clever
 
-        if(nearPlayer == false) {
+        if (nearPlayer == false) {
             if (patrol1 == null) {
                 patrol1 = new Point(getX(), getY());
                 patrol2 = getRandomPoint(getX(), getY());
@@ -79,30 +81,20 @@ public class Zombie extends Mob {
                     //System.out.println("Attempting to follow path");
                     Path.Step nextStep = movement.getStep(pos);
 
-                    /// System.out.println("At: " + (getX()/128) + "-" + (getY()/128));
-                    //System.out.println("Next: " + nextStep.getX() + "-" + nextStep.getY());
+                    float xSpeed = ((nextStep.getX() * 128) - x);
+                    float ySpeed = ((nextStep.getY() * 128) - y);
+                    float factor = (float) (4 / Math.sqrt(xSpeed * xSpeed + ySpeed * ySpeed));
+                    xSpeed *= factor;
+                    ySpeed *= factor;
 
-
-                    if (getX() > nextStep.getX() * 128) {
-                        System.out.println(" X >");
-                        x -= 3;
-                    }
-                    if (getX() < nextStep.getX() * 128) {
-                        System.out.println(" X <");
-                        x += 3;
-                    }
-
-                    if (getY() > nextStep.getY() * 128) {
-
-                        System.out.println(" Y >");
-
-                        y -= 3;
-                    }
-
-                    if (getY() < nextStep.getY() * 128) {
-
-                        System.out.println(" Y <");
-                        y += 3;
+                    if (level.canMove((int) (x + xSpeed), (int) (y + ySpeed), 64, 64,this)) {
+                        x += xSpeed;
+                        y += ySpeed;
+                    } else {
+                        movement = null;
+                        patrol1 = null;
+                        patrol2 = null;
+                        pos = 1;
                     }
 
                     if (getX() / 128 == nextStep.getX() && getY() / 128 == nextStep.getY()) {
@@ -120,45 +112,45 @@ public class Zombie extends Mob {
                 }
             }
 
-        }else{
-            if(getX() > level.p.getX()){
-                x-=3;
-            }
-
-            if(getX() < level.p.getX()){
-                x+=3;
-            }
-
-            if(getY() > level.p.getY()){
-                y -=3;
-            }
-
-            if(getY() < level.p.getY()){
-                y+=3;
+        } else {
+            float xSpeed = ((level.p.getX()) - x);
+            float ySpeed = ((level.p.getY()) - y);
+            float factor = (float) (4 / Math.sqrt(xSpeed * xSpeed + ySpeed * ySpeed));
+            xSpeed *= factor;
+            ySpeed *= factor;
+            if (level.canMove((int) (x + xSpeed), (int) (y + ySpeed), 62, 62,this)) {
+                x += xSpeed;
+                y += ySpeed;
             }
         }
 
 
+        Rectangle z = new Rectangle(getX(), getY(), 62, 62);
+        if (level.p.attackDistance.contains(getX(), getY())) {
+            nearPlayer = true;
+        } else {
 
-        Rectangle z = new Rectangle(getX(),getY(),64,64);
-        if(level.p.attackDistance.contains(getX(),getY())){
-            nearPlayer= true;
-        }else{
+            if (patrol1 != null && nearPlayer) {
+                pos = 1;
+                patrol1 = null;
+                patrol2 = null;
+            }
+
             nearPlayer = false;
         }
     }
 
 
-    public Point getRandomPoint(int nearX,int nearY){
-        nearX = nearX/128;
-        nearY = nearY/128;
+    public Point getRandomPoint(int nearX, int nearY) {
+        nearX = nearX / 128;
+        nearY = nearY / 128;
         Random r = new Random();
         int minValueX;
         int maxValueX;
-        if(nearX > 20) {
-             minValueX = nearX - 5;
-             maxValueX = nearX + 5;
-        }else{
+        if (nearX > 20) {
+            minValueX = nearX - 5;
+            maxValueX = nearX + 5;
+        } else {
             minValueX = 0;
             maxValueX = nearX + 5;
         }
@@ -166,46 +158,64 @@ public class Zombie extends Mob {
         int maxValueY;
 
 
-        if(nearY > 20) {
+        if (nearY > 20) {
             minValueY = nearY - 5;
             maxValueY = nearY + 5;
-        }else{
+        } else {
             minValueY = nearY;
             maxValueY = nearY + 5;
         }
 
 
-        int x = r.nextInt(maxValueX -minValueX) + minValueX;
+        int x = r.nextInt(maxValueX - minValueX) + minValueX;
 
-        int y = r.nextInt(maxValueY -minValueY) + minValueY;
-        if(x >=30){
-            if(nearX != 29){
-                x= 29;
-            }else{
+        int y = r.nextInt(maxValueY - minValueY) + minValueY;
+        if (x >= 30) {
+            if (nearX != 29) {
+                x = 29;
+            } else {
                 x = 20;
             }
         }
 
 
-        if(y >=30){
-            if(nearX != 29){
-                y= 29;
-            }else{
+        if (y >= 30) {
+            if (nearX != 29) {
+                y = 29;
+            } else {
                 y = 20;
             }
         }
 
         System.out.println("Point created: " + x + "-" + y);
-        return new Point(x * 128,y*128);
+        return new Point(x * 128, y * 128);
     }
 
     @Override
     public void render(Graphics g) {
         g.drawImage(zombie, getX(), getY());
-        if(patrol2 != null) {
-            g.fillRect((int) patrol2.getX(), (int) patrol2.getY(), 128, 128);
-            g.setColor(Color.green);
-            g.fillRect(movement.getX(pos)*128,movement.getY(pos) * 128,128,128);
+        if (patrol2 != null) {
+            // g.fillRect((int) patrol2.getX(), (int) patrol2.getY(), 128, 128);
+            //  g.setColor(Color.green);
+            //  g.fillRect(movement.getX(pos)*128,movement.getY(pos) * 128,128,128);
         }
+    }
+
+    @Override
+    public void notifyTouchedPlayer(Level parent) {
+            Player p = parent.p;
+
+        for(int i = 0;i != 2;i++)
+        parent.system.addParticle(new BloodParticle(p.getX(),p.getY()));
+
+        int direction =0;
+        if(getX() > p.getX())direction = 3;
+        if(getX() < p.getX()) direction = 1;
+
+        if(getY() > p.getY())direction = 0;
+        if(getY() < p.getY())direction = 2;
+        p.knockback(parent,2,direction);
+        p.health-=0.25;
+
     }
 }

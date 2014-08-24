@@ -58,4 +58,11 @@ int time = 0;
         level.entities.remove(this);
         p.i.addItem(i,1);
     }
+
+    @Override
+    public void notifyTouchedPlayer(Level parent) {
+
+    }
+
+
 }
