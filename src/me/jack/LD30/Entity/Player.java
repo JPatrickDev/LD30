@@ -162,7 +162,20 @@ public class Player extends Mob {
 
     }
 
-    public void click(int x, int y, Level level) {
+    public void click(int x, int y, Level level, int button) {
+        if(button ==2){
+            if(i.contains(new ItemStack(Item.apple,1,null))){
+                for(ItemStack iii : i.getItems()){
+                    if(iii.getItem().id == Item.apple.id){
+                        iii.removeItem();
+                        if(health <20){
+                            health+=2;
+                        }
+                    }
+                }
+            }
+            return;
+        }
         int tX = (x + level.c.x) / 128;
         int tY = (y + level.c.y) / 128;
 

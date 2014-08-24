@@ -210,7 +210,11 @@ public class Level implements TileBasedMap{
             float tile = getTiles()[x][y];
             float tree = getTrees()[x][y];
             if (tile == 0 && tree != 1) {
-                entities.add(new Zombie(x * tileSize, y * tileSize));
+
+                Zombie zombie = new Zombie(x * tileSize, y * tileSize);
+
+                if(canMove(x*tileSize,y * tileSize,64,64,zombie))
+                entities.add(zombie);
             }
 
         }

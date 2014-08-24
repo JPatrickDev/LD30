@@ -34,7 +34,8 @@ public class HUD {
 
         float health = l.p.getHealth();
 
-        int full_hearts = (int)health/2;
+
+        int full_hearts = Math.round(health/2);
     if(health > 0) {
         for (int i = 0; i != full_hearts; i++) {
             g.drawImage(heart, (i * 18), 510);

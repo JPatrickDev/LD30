@@ -29,9 +29,9 @@ public class InGameState extends BasicGameState{
     public void mouseClicked(int button, int x, int y, int clickCount) {
         super.mouseClicked(button, x, y, clickCount);
         if(current != null)return;
-        if(button == 0){
-            getCurrentLevel().p.click(x,y,getCurrentLevel());
-        }
+
+            getCurrentLevel().p.click(x,y,getCurrentLevel(),button);
+
     }
 
     private static int currentLevel = 0;
