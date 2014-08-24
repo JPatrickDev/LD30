@@ -50,8 +50,12 @@ public class InGameState extends BasicGameState{
         Text.init();
 
         levels[0] = LevelGenerator.generateLevel(30,30,false,GenerationOptions.BEACHES);
-        levels[1] = LevelGenerator.generateLevel(30,30,false, GenerationOptions.WATER);
+        System.out.println("Level 1");
+
+        levels[1] = LevelGenerator.generateLevel(30,30,false, GenerationOptions.MIXED);
+        System.out.println("Level 2");
         levels[2] = LevelGenerator.generateLevel(30,30,false,GenerationOptions.LARGE_ISLANDS);
+        System.out.println("Level 3");
      }
 
     private PopupDialog current = null;
