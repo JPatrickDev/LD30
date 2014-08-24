@@ -38,6 +38,11 @@ public class Player extends Mob {
     private Animation run_right = new Animation();
     private Animation run_left = new Animation();
 
+    private Image swim_up;
+    private Image swim_down;
+    private Image swim_left;
+    private Image swim_right;
+
     public Player(int x, int y) {
         super(x, y);
         this.health = 20;
@@ -73,6 +78,11 @@ public class Player extends Mob {
             run_left.addFrame(sprites.getSprite(1,3),250);
             run_left.setLooping(true);
             run_left.setAutoUpdate(true);
+
+            swim_up = sprites.getSprite(3,3);
+            swim_down = sprites.getSprite(3,2);
+            swim_right = sprites.getSprite(2,3);
+            swim_left = sprites.getSprite(2,2);
         } catch (SlickException e) {
             e.printStackTrace();
         }
@@ -153,8 +163,12 @@ public class Player extends Mob {
         if(facing == 2)run_down.draw(getX(),getY());
         if(facing == 3)run_left.draw(getX(),getY());
     }
-    else
-        g.drawImage(swimming,getX(),getY());
+    else {
+        if (facing == 0) swim_up.draw(getX(), getY());
+        if (facing == 1) swim_right.draw(getX(), getY());
+        if (facing == 2) swim_down.draw(getX(), getY());
+        if (facing == 3) swim_left.draw(getX(), getY());
+    }
     }
 
     @Override

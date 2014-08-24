@@ -394,7 +394,7 @@ public class LevelGenerator {
                      }
 
                     if(x == l.level_portal.getX() && y == l.level_portal.getY()){
-                        pixels[x+y*w] = Color.pink.hashCode();
+                        pixels[x+y*w] = Color.magenta.hashCode();
                     }
 
                     if(x == l.level_key.getX() && y == l.level_key.getY()){
