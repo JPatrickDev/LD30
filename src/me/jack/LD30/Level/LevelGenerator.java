@@ -146,6 +146,7 @@ public class LevelGenerator {
             l = new Level(width, height);
             l.setTrees(trees);
             l.setTiles(tiled);
+            addPortal(l);
             valid = validate(l);
             //valid = true;
         }
@@ -375,6 +376,10 @@ public class LevelGenerator {
                       if(trees[x][y] == 1 && p == 0){
                          pixels[x+y*w] = Color.ORANGE.hashCode();
                      }
+
+                    if(x == l.level_portal.getX() && y == l.level_portal.getY()){
+                        pixels[x+y*w] = Color.pink.hashCode();
+                    }
                 }
             }
 
@@ -383,6 +388,38 @@ public class LevelGenerator {
             image.setRGB(0, 0, w, h, pixels, 0, w);
 
             JOptionPane.showMessageDialog(null, null, "Test", JOptionPane.YES_NO_OPTION, new ImageIcon(image.getScaledInstance(w * 10, h * 10, 0)));
+        }
+
+    }
+
+    public static void addPortal(Level l){
+        Random r = new Random();
+
+
+        float[][] tiles = l.getTiles();
+        float[][] trees = l.getTrees();
+
+        boolean spawnFound = false;
+        int tries =0;
+
+        while(!spawnFound){
+            tries++;
+
+            int x = r.nextInt(l.getWidth());
+            int y = r.nextInt(l.getHeight());
+
+
+            float tileAttempt = tiles[x][y];
+
+            if(tileAttempt != 0)continue;
+
+            if(!surrounded(0,tiles,x,y,l.getWidth(),l.getHeight()))continue;
+
+            if(trees[x][y] != 0)continue;
+
+            System.out.println("Spawn point found");
+            spawnFound = true;
+            l.setPortal(x,y);
         }
 
     }

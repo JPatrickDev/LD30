@@ -3,6 +3,7 @@ package me.jack.LD30.Level;
 import me.jack.LD30.Entity.Entity;
 import me.jack.LD30.Entity.Player;
 import me.jack.LD30.Entity.Zombie;
+import me.jack.LD30.InGameState;
 import org.lwjgl.Sys;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
@@ -48,8 +49,12 @@ public class Level implements TileBasedMap{
 
     static Tile tree;
 
+
+
+    static Tile portal;
     public Camera c;
 
+    public Point level_portal;
 
 
 
@@ -66,6 +71,8 @@ public class Level implements TileBasedMap{
         sand = new Tile(1,0,false);
 
         tree = new Tile(3,0,true);
+
+        portal = new Tile(new Point[]{ new Point(0,2),new Point(1,2),new Point(2,2), new Point(3,2)},false);
     }
 
 
@@ -156,6 +163,8 @@ public class Level implements TileBasedMap{
         p.render(g);
 
         system.render(g,0,0);
+
+       portal.animation.draw((int)level_portal.getX()*128,(int)level_portal.getY() * 128);
         g.resetTransform();;
     }
 
@@ -172,6 +181,10 @@ public class Level implements TileBasedMap{
             }
         }
 
+    }
+
+    public void nextLevel(){
+        InGameState.next();
     }
 
     public boolean canMove(int x,int y,int w,int h,Entity caller){
@@ -202,6 +215,15 @@ public class Level implements TileBasedMap{
           if(player.intersects(r))  caller.notifyTouchedPlayer(this);
             return !player.intersects(r);
         }
+
+        if(caller instanceof  Player){
+            int tileX = x/128;
+            int tileY = y/ 128;
+            if(tileX == level_portal.x && tileY == level_portal.y){
+                nextLevel();
+            }
+        }
+
         return true;
     }
 
@@ -281,5 +303,9 @@ public class Level implements TileBasedMap{
 
 
         return e;
+    }
+
+    public void setPortal(int x, int y) {
+        level_portal = new Point(x,y);
     }
 }

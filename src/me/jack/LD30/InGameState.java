@@ -19,8 +19,7 @@ import org.newdawn.slick.state.StateBasedGame;
 public class InGameState extends BasicGameState{
 
 
-    Level l = LevelGenerator.generateLevel(30,30,false, GenerationOptions.WATER);
-
+    Level[] levels = new Level[3];
     @Override
     public int getID() {
         return 1;
@@ -31,8 +30,14 @@ public class InGameState extends BasicGameState{
         super.mouseClicked(button, x, y, clickCount);
         if(current != null)return;
         if(button == 0){
-            l.p.click(x,y,l);
+            getCurrentLevel().p.click(x,y,getCurrentLevel());
         }
+    }
+
+    private static int currentLevel = 0;
+
+    public Level getCurrentLevel(){
+        return levels[currentLevel];
     }
 
     @Override
@@ -43,15 +48,19 @@ public class InGameState extends BasicGameState{
         Item.init();
         Numbers.init();
         Text.init();
-    }
+
+        levels[0] = LevelGenerator.generateLevel(30,30,false,GenerationOptions.BEACHES);
+        levels[1] = LevelGenerator.generateLevel(30,30,false, GenerationOptions.WATER);
+        levels[2] = LevelGenerator.generateLevel(30,30,false,GenerationOptions.LARGE_ISLANDS);
+     }
 
     private PopupDialog current = null;
     @Override
     public void render(GameContainer gameContainer, StateBasedGame stateBasedGame, Graphics graphics) throws SlickException {
         //graphics.scale(4f,4f);
 
-        l.render(graphics);
-        HUD.drawHUD(graphics,l);
+        getCurrentLevel().render(graphics);
+        HUD.drawHUD(graphics,getCurrentLevel());
 
         if(current != null){
             current.render(graphics);
@@ -60,8 +69,8 @@ public class InGameState extends BasicGameState{
 
     @Override
     public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int i) throws SlickException {
-           if(current ==null) l.update(gameContainer);
-        if(current != null)current.update(gameContainer,l);
+           if(current ==null) getCurrentLevel().update(gameContainer);
+        if(current != null)current.update(gameContainer,getCurrentLevel());
     }
 
 
@@ -83,8 +92,13 @@ public class InGameState extends BasicGameState{
 
         if(key == Keyboard.KEY_RETURN){
             if(current != null){
-                current.keyReleased(key,l.p);
+                current.keyReleased(key,getCurrentLevel().p);
             }
         }
+    }
+
+    public static void next() {
+
+        currentLevel++;
     }
 }

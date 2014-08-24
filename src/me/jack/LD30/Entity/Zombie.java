@@ -74,11 +74,9 @@ public class Zombie extends Mob {
                     System.out.println(pX + ":" + pY);
 
                     if (movement == null) {
-                        System.out.println("No path found");
                         patrol1 = null;
                         patrol2 = null;
                     } else {
-                        System.out.println("Patrol path found");
                     }
 
                 }
