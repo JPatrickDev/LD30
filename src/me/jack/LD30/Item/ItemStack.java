@@ -8,33 +8,41 @@ public class ItemStack {
     private Item item;
     private int count;
 
-    public ItemStack(Item item, int count){
+    private Inventory parent;
+
+    public ItemStack(Item item, int count, Inventory parent) {
         this.item = item;
         this.count = count;
+        this.parent = parent;
     }
 
-    public Item getItem(){
+    public Item getItem() {
         return item;
     }
 
-    public int getCount(){
+    public int getCount() {
         return count;
     }
 
-    public void addItem(){
+    public void addItem() {
         count++;
     }
 
-    public void addItems(int amount){
-        count+= amount;
+    public void addItems(int amount) {
+        count += amount;
     }
 
-    public void removeItem(){
-        count--;
+    public void removeItem() {
+        removeItems(1);
     }
 
-    public void removeItems(int amount){
-        count -=amount;
+    public void removeItems(int amount) {
+
+        count -= amount;
+        if (count == 0 && parent != null) {
+            parent.removeItemStack(this);
+        }
+
     }
 
 }

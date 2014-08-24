@@ -37,9 +37,9 @@ public class Item {
         logs = new Item(0,0,0);
         apple = new Item(1,0,1);
         woodAxe = new Item(2,0,2);
-        woodAxe.craftRequirements.add(new ItemStack(Item.logs,2));
+        woodAxe.craftRequirements.add(new ItemStack(Item.logs,2,null));
         woodSword = new Item(3,0,3);
-        woodSword.craftRequirements.add(new ItemStack(Item.logs,3));
+        woodSword.craftRequirements.add(new ItemStack(Item.logs,3,null));
 
         key = new Item(0,1,4);
     }

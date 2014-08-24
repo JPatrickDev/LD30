@@ -17,7 +17,7 @@ public class Inventory {
             }
         }
 
-        ItemStack stack = new ItemStack(i, count);
+        ItemStack stack = new ItemStack(i, count,this);
         items.add(stack);
     }
 
@@ -39,4 +39,7 @@ public class Inventory {
         return false;
     }
 
+    public void removeItemStack(ItemStack remove){
+        items.remove(remove);
+    }
 }

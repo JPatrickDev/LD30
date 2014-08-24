@@ -174,7 +174,7 @@ public class Level implements TileBasedMap{
         p.render(g);
 
         system.render(g,0,0);
-    if(p.i.contains(new ItemStack(Item.key,1)))
+    if(p.i.contains(new ItemStack(Item.key,1,null)))
        portal.animation.draw((int)level_portal.getX()*128,(int)level_portal.getY() * 128);
         else{
             g.drawImage(unactive_portal,(float)level_portal.getX()*128,(float)level_portal.getY()*128);
@@ -234,7 +234,7 @@ public class Level implements TileBasedMap{
             int tileX = x/128;
             int tileY = y/ 128;
             if(tileX == level_portal.x && tileY == level_portal.y){
-                if(p.i.contains(new ItemStack(Item.key,1))) {
+                if(p.i.contains(new ItemStack(Item.key,1,null))) {
                     nextLevel();
                    for(ItemStack ii : p.i.getItems()){
                        if(ii.getItem().id == 4){

@@ -50,11 +50,17 @@ public class HUD {
 
         int startX = (gap_per_line) + 5;
         int startY = 505;
+        int ii = 0;
         for(ItemStack items : i.getItems()){
+            if(ii == 2){
+                ii = 0;
+                startY = 505;
+                startX += 38;
+            }
             g.drawImage(items.getItem().getIcon(),startX + 5,startY);
             Numbers.draw(items.getCount() + "",g,startX,startY);
             startY += 38;
-
+            ii++;
         }
 
 

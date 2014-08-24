@@ -180,7 +180,7 @@ public class Player extends Mob {
             }
 
 
-            if(i.contains(new ItemStack(Item.woodAxe,1))){
+            if(i.contains(new ItemStack(Item.woodAxe,1,null))){
                 level.entities.add(new DroppedItem((tX * 128) + 64, (tY * 128) + 64, Item.logs));
                 level.entities.add(new DroppedItem((tX * 128) + 64, (tY * 128) + 64, Item.logs));
                 level.entities.add(new DroppedItem((tX * 128) + 64, (tY * 128) + 64, Item.apple));
@@ -197,7 +197,7 @@ public class Player extends Mob {
 
             for(Entity e : attack){
                 if(e instanceof Zombie){
-                    if(i.contains(new ItemStack(Item.woodSword,1))){
+                    if(i.contains(new ItemStack(Item.woodSword,1,null))){
                     ((Zombie) e).health-=10;
                     }else{
                         ((Zombie) e).health-=5;
