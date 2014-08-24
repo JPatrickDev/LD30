@@ -37,6 +37,7 @@ public class Item {
         woodAxe = new Item(2,0,2);
         woodAxe.craftRequirements.add(new ItemStack(Item.logs,2));
         woodSword = new Item(3,0,3);
+        woodSword.craftRequirements.add(new ItemStack(Item.logs,3));
     }
 
     private Image sprite;

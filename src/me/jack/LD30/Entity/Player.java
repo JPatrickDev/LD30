@@ -2,6 +2,7 @@ package me.jack.LD30.Entity;
 
 import me.jack.LD30.Item.Inventory;
 import me.jack.LD30.Item.Item;
+import me.jack.LD30.Item.ItemStack;
 import me.jack.LD30.Level.Level;
 import me.jack.LD30.Particle.TreeBreakParticle;
 import org.lwjgl.input.Keyboard;
@@ -20,12 +21,17 @@ public class Player extends Mob {
 
     public Image player = null;
     public Image damaged = null;
+    public Image swimming = null;
 
     public SpriteSheet sprites;
 
     public Circle attackDistance = new Circle(50,50, 2*128);
 
     public Circle attackRange = new Circle(50,50,128);
+
+
+    public boolean isSwimming = false;
+
     public Player(int x, int y) {
         super(x, y);
         this.health = 20;
@@ -37,6 +43,7 @@ public class Player extends Mob {
 
             player = sprites.getSprite(0,0);
             damaged = sprites.getSprite(3,3);
+            swimming = sprites.getSprite(3,2);
         } catch (SlickException e) {
             e.printStackTrace();
         }
@@ -80,6 +87,16 @@ public class Player extends Mob {
         attackRange.setCenterX(x + 32);
         attackRange.setCenterY(y + 32);
 
+        int tX = getX()/128;
+        int tY = getY() /128;
+        float t = level.getTiles()[tX][tY];
+
+        if(t ==1){
+            isSwimming = true;
+        }else{
+            isSwimming = false;
+        }
+
     }
 
     @Override
@@ -91,8 +108,10 @@ public class Player extends Mob {
         g.setColor(Color.white);
 
 
-
+    if(!isSwimming)
         g.drawImage(player, getX(), getY());
+    else
+        g.drawImage(swimming,getX(),getY());
     }
 
     @Override
@@ -122,8 +141,14 @@ public class Player extends Mob {
             }
 
 
-            level.entities.add(new DroppedItem((tX * 128) + 64, (tY * 128) + 64, Item.logs));
-            level.entities.add(new DroppedItem((tX * 128) + 64, (tY * 128) + 64, Item.apple));
+            if(i.contains(new ItemStack(Item.woodAxe,1))){
+                level.entities.add(new DroppedItem((tX * 128) + 64, (tY * 128) + 64, Item.logs));
+                level.entities.add(new DroppedItem((tX * 128) + 64, (tY * 128) + 64, Item.logs));
+                level.entities.add(new DroppedItem((tX * 128) + 64, (tY * 128) + 64, Item.apple));
+            }else{
+                level.entities.add(new DroppedItem((tX * 128) + 64, (tY * 128) + 64, Item.logs));
+            }
+
 
         } else {
             level.entities.add(new Zombie((tX * 128) + 64, (tY * 128) + 64));
@@ -133,7 +158,11 @@ public class Player extends Mob {
 
             for(Entity e : attack){
                 if(e instanceof Zombie){
-                    ((Zombie) e).health-=5;
+                    if(i.contains(new ItemStack(Item.woodSword,1))){
+                    ((Zombie) e).health-=10;
+                    }else{
+                        ((Zombie) e).health-=5;
+                    }
                 }
             }
 

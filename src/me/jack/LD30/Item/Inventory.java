@@ -1,6 +1,5 @@
 package me.jack.LD30.Item;
 
-import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
@@ -8,7 +7,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
  */
 public class Inventory {
 
-    private CopyOnWriteArrayList<ItemStack> items = new  CopyOnWriteArrayList<ItemStack>();
+    private CopyOnWriteArrayList<ItemStack> items = new CopyOnWriteArrayList<ItemStack>();
 
     public void addItem(Item i, int count) {
         for (ItemStack s : items) {
@@ -23,7 +22,21 @@ public class Inventory {
     }
 
 
-    public  CopyOnWriteArrayList<ItemStack> getItems() {
+    public CopyOnWriteArrayList<ItemStack> getItems() {
         return items;
     }
+
+    public boolean contains(ItemStack itemStack) {
+        for (ItemStack item : items) {
+            if (item.getItem().id == itemStack.getItem().id) {
+                if (item.getCount() >= itemStack.getCount()) {
+                    return true;
+                }
+            }
+
+        }
+
+        return false;
+    }
+
 }

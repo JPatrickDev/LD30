@@ -37,7 +37,7 @@ public class InGameState extends BasicGameState{
     private static int currentLevel = 0;
 
     public Level getCurrentLevel(){
-        return levels[currentLevel];
+       return levels[currentLevel];
     }
 
     @Override
@@ -90,11 +90,10 @@ public class InGameState extends BasicGameState{
             }
         }
 
-        if(key == Keyboard.KEY_RETURN){
             if(current != null){
                 current.keyReleased(key,getCurrentLevel().p);
             }
-        }
+
     }
 
     public static void next() {

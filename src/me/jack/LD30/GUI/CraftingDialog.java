@@ -92,7 +92,7 @@ public class CraftingDialog extends PopupDialog {
                     System.out.println("Match found");
                     if(i.getCount() <= pItem.getCount()){
                         pItem.removeItems(i.getCount());
-                        p.i.addItem(Item.woodAxe,1);
+                        p.i.addItem(item,1);
                     }
                 }else{
                     System.out.println(i.getItem().id);
@@ -111,6 +111,14 @@ public class CraftingDialog extends PopupDialog {
 
     @Override
     public void keyReleased(int key,Player p) {
+        if(key == Keyboard.KEY_RETURN)
             craft(p);
+        else if(key == Keyboard.KEY_UP){
+            pos--;
+        }
+
+        else if(key == Keyboard.KEY_DOWN){
+            pos++;
+        }
     }
 }

@@ -190,7 +190,7 @@ public class Level implements TileBasedMap{
     public boolean canMove(int x,int y,int w,int h,Entity caller){
         Rectangle r = new Rectangle(x,y,w,h);
         for(Rectangle i : hitboxes){
-            if(r.intersects(i))return false;
+            if(r.intersects(i) && !(caller instanceof Player))return false;
         }
 
         for(int xx= 0;xx!= trees.length;xx++){
