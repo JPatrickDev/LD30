@@ -111,8 +111,8 @@ public class Level implements TileBasedMap{
 
     }
 
-    public void postGeneration(boolean testing){
-        Point spawn = LevelGenerator.findSpawnLocation(this);
+    public void postGeneration(boolean testing, float[][] grass){
+        Point spawn = LevelGenerator.findSpawnLocation(this,grass);
         this.spawn = spawn;
         if(!testing) {
 

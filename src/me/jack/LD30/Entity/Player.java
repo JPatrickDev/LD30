@@ -202,6 +202,7 @@ public class Player extends Mob {
                     }else{
                         ((Zombie) e).health-=5;
                     }
+                    e.knockback(level,5,facing);
                 }
             }
 

@@ -124,6 +124,8 @@ public class LevelGenerator {
         long start = System.currentTimeMillis();
         boolean valid = false;
         Level l = null;
+
+        float[][] grass = new float[width][height];
         while (!valid) {
             Random r = new Random();
             float[][] whitenoise = generateWhiteNoise(width, height, r);
@@ -131,7 +133,7 @@ public class LevelGenerator {
             float[][] tiled = group(perlinNoise,options);
 
             float[][] trees = trees(width,height);
-
+            l = new Level(width, height);
             for (int x = 0; x != width; x++) {
                 for (int y = 0; y != height; y++) {
                     float t = tiled[x][y];
@@ -139,21 +141,27 @@ public class LevelGenerator {
                     float treeT = trees[x][y];
                     if (treeT != 1) continue;
 
-                    if (t != 0) trees[x][y] = 0;
+                    if (t != 0){
+                        trees[x][y] = 0;
+                        if(t == 1){
+                            if(surrounded(0,tiled,x,y,l.getWidth(),l.getHeight()))
+                            grass[x][y]=1;
+                        }
+                    }
                 }
             }
 
-            l = new Level(width, height);
+
             l.setTrees(trees);
             l.setTiles(tiled);
-            addPortal(l);
-            addKey(l);
+            addPortal(l,grass);
+            addKey(l,grass);
             valid = validate(l);
             //valid = true;
         }
         long end = System.currentTimeMillis();
 
-        l.postGeneration(test);
+        l.postGeneration(test,grass);
         System.out.println("Level generation took: " + (end - start));
 
 
@@ -238,7 +246,7 @@ public class LevelGenerator {
 
 
 
-    public static Point findSpawnLocation(Level l){
+    public static Point findSpawnLocation(Level l,float[][] grass){
         Random r = new Random();
 
 
@@ -251,19 +259,17 @@ public class LevelGenerator {
         while(!spawnFound){
             tries++;
 
+
             int x = r.nextInt(l.getWidth());
             int y = r.nextInt(l.getHeight());
 
 
-            float tileAttempt = tiles[x][y];
 
-            if(tileAttempt != 0)continue;
-
-            if(!surrounded(0,tiles,x,y,l.getWidth(),l.getHeight()))continue;
+            if(tiles[x][y] == 0)continue;
 
             if(trees[x][y] != 0)continue;
 
-            System.out.println("Spawn point found");
+            //System.out.println("Spawn point found");
             spawnFound = true;
             return new Point(x,y);
         }
@@ -301,6 +307,15 @@ public class LevelGenerator {
             }
         }
         l.setTiles(tiles);
+
+        if(l.level_key == null){
+            System.out.println("Unable to place key");
+            return false;
+        }
+        if(l.level_portal == null){
+            System.out.println("Unable to place portal");
+            return false;
+        }
         return true;
     }
 
@@ -397,28 +412,29 @@ public class LevelGenerator {
 
     }
 
-    public static void addPortal(Level l){
+    public static void addPortal(Level l,float[][] grass){
         Random r = new Random();
 
 
-        float[][] tiles = l.getTiles();
         float[][] trees = l.getTrees();
-
+        float[][] tiles = l.getTiles();
         boolean spawnFound = false;
         int tries =0;
 
         while(!spawnFound){
             tries++;
 
+            if(tries >800){
+              //  System.out.println("Unable to place portal");
+                return;
+            }
+
             int x = r.nextInt(l.getWidth());
             int y = r.nextInt(l.getHeight());
 
 
-            float tileAttempt = tiles[x][y];
 
-            if(tileAttempt != 0)continue;
-
-            if(!surrounded(0,tiles,x,y,l.getWidth(),l.getHeight()))continue;
+            if(tiles[x][y] == 1)continue;
 
             if(trees[x][y] != 0)continue;
 
@@ -429,7 +445,7 @@ public class LevelGenerator {
     }
 
 
-    public static void addKey(Level l){
+    public static void addKey(Level l,float[][] grass){
         Random r = new Random();
 
 
@@ -442,15 +458,17 @@ public class LevelGenerator {
         while(!spawnFound){
             tries++;
 
+            if(tries > 800){
+             //   System.out.println("Unable to place key");
+                return;
+            }
             int x = r.nextInt(l.getWidth());
             int y = r.nextInt(l.getHeight());
 
 
-            float tileAttempt = tiles[x][y];
 
-            if(tileAttempt != 0)continue;
+            if(tiles[x][y] == 1)continue;
 
-            if(!surrounded(0,tiles,x,y,l.getWidth(),l.getHeight()))continue;
 
             if(trees[x][y] != 0)continue;
 
