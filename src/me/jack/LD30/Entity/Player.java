@@ -190,9 +190,6 @@ public class Player extends Mob {
 
 
         } else {
-            level.entities.add(new Zombie((tX * 128) + 64, (tY * 128) + 64));
-
-
             ArrayList<Entity> attack = level.getEntitiesInArea(attackRange);
 
             for(Entity e : attack){

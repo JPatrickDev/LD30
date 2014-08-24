@@ -180,7 +180,13 @@ public class Level implements TileBasedMap{
             g.drawImage(unactive_portal,(float)level_portal.getX()*128,(float)level_portal.getY()*128);
     }
         g.resetTransform();;
+
+
     }
+
+
+    int tick_count;
+
 
     public void update(GameContainer gc){
         p.update(this);
@@ -194,7 +200,20 @@ public class Level implements TileBasedMap{
                 e.steppedOn(p,this);
             }
         }
+    tick_count++;
+        if(tick_count == 5){
+            tick_count = 0;
+            Random r = new Random();
+            int x = r.nextInt(getWidth());
+            int y = r.nextInt(getHeight());
 
+            float tile = getTiles()[x][y];
+            float tree = getTrees()[x][y];
+            if (tile == 0 && tree != 1) {
+                entities.add(new Zombie(x * tileSize, y * tileSize));
+            }
+
+        }
     }
 
     public void nextLevel(){
