@@ -1,13 +1,14 @@
 package me.jack.LD30.Item;
 
 import java.util.ArrayList;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Created by Jack on 23/08/2014.
  */
 public class Inventory {
 
-    private ArrayList<ItemStack> items = new ArrayList<ItemStack>();
+    private CopyOnWriteArrayList<ItemStack> items = new  CopyOnWriteArrayList<ItemStack>();
 
     public void addItem(Item i, int count) {
         for (ItemStack s : items) {
@@ -22,7 +23,7 @@ public class Inventory {
     }
 
 
-    public ArrayList<ItemStack> getItems() {
+    public  CopyOnWriteArrayList<ItemStack> getItems() {
         return items;
     }
 }

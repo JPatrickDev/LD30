@@ -2,20 +2,25 @@ package me.jack.LD30.Level;
 
 import me.jack.LD30.Entity.Entity;
 import me.jack.LD30.Entity.Player;
+import me.jack.LD30.Entity.Zombie;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.util.pathfinding.AStarPathFinder;
+import org.newdawn.slick.util.pathfinding.PathFindingContext;
+import org.newdawn.slick.util.pathfinding.TileBasedMap;
 import uk.co.jdpatrick.JEngine.Particle.ParticleSystem;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Created by Jack on 23/08/2014.
  */
-public class Level {
+public class Level implements TileBasedMap{
 
 
     public ParticleSystem system = new ParticleSystem();
@@ -26,7 +31,7 @@ public class Level {
 
     ArrayList<Rectangle> hitboxes = new ArrayList<Rectangle>();
 
-    private int tileSize = 128;
+    public int tileSize = 128;
 
 
 
@@ -41,6 +46,8 @@ public class Level {
 
     public Camera c;
 
+
+    public AStarPathFinder pathFinder = null;
 
     private int width,height;
 
@@ -89,6 +96,24 @@ public class Level {
         Point spawn = LevelGenerator.findSpawnLocation(this);
         p = new Player((int)spawn.getX() * tileSize,(int)spawn.getY() * tileSize);
         this.spawn = spawn;
+
+        pathFinder = new AStarPathFinder(this,50,false);
+        Random r = new Random();
+
+        for(int i = 0;i!= 10;i++) {
+            int x = r.nextInt(getWidth());
+            int y = r.nextInt(getHeight());
+
+            float tile = getTiles()[x][y];
+            float tree = getTrees()[x][y];
+            if (tile == 0 && tree != 1) {
+                entities.add(new Zombie(x * tileSize, y * tileSize));
+            }
+
+        }
+
+
+
     }
 
     public Player p;
@@ -165,5 +190,52 @@ public class Level {
 
     public int getHeight() {
         return height;
+    }
+
+    @Override
+    public int getWidthInTiles() {
+        return getWidth();
+    }
+
+    @Override
+    public int getHeightInTiles() {
+        return getHeight();
+    }
+
+    @Override
+    public void pathFinderVisited(int i, int i2) {
+
+    }
+
+    @Override
+    public boolean blocked(PathFindingContext pathFindingContext, int i, int i2) {
+        //System.out.println("Checking: " + i +  ":" + i2);
+       float t = getTiles()[i][i2];
+        float tr = getTrees()[i][i2];
+        boolean blocked = false;
+
+
+        if(t == 1)
+        {
+            blocked = true;
+            return blocked;
+        }
+
+        if(tr == 1){
+            blocked = true;
+           // System.out.println("Blocked");
+            return blocked;
+        }
+
+
+      //  System.out.println("Not blocked");
+        return blocked;
+
+
+    }
+
+    @Override
+    public float getCost(PathFindingContext pathFindingContext, int i, int i2) {
+        return 0;
     }
 }

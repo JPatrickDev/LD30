@@ -68,6 +68,7 @@ public class InGameState extends BasicGameState{
     public void keyReleased(int key, char c) {
         super.keyReleased(key, c);
         if(c == 'c'){
+            System.out.println("C pressed");
             if(current == null) {
                 try {
                     current = new CraftingDialog();
@@ -81,7 +82,7 @@ public class InGameState extends BasicGameState{
 
         if(key == Keyboard.KEY_RETURN){
             if(current != null){
-                current.keyReleased(key);
+                current.keyReleased(key,l.p);
             }
         }
     }

@@ -1,5 +1,6 @@
 package me.jack.LD30.GUI;
 
+import me.jack.LD30.Entity.Player;
 import me.jack.LD30.Item.Item;
 import me.jack.LD30.Item.ItemStack;
 import me.jack.LD30.Level.Level;
@@ -10,6 +11,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
 import java.util.ArrayList;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Created by Jack on 23/08/2014.
@@ -36,7 +38,7 @@ public class CraftingDialog extends PopupDialog {
 
         for (String s : craftable) {
             Text.drawLarge(s, g, 70, y);
-            y += 18;
+            y += 24;
         }
 
         g.drawImage(craftableItems[pos].getSprite(), 244, 84);
@@ -62,7 +64,7 @@ public class CraftingDialog extends PopupDialog {
 
         Text.drawLarge("You have:", g, 230, startY + 8);
         startY += 32;
-        ArrayList<ItemStack> items = l.p.i.getItems();
+        CopyOnWriteArrayList<ItemStack> items = l.p.i.getItems();
         for(ItemStack itemStack : items){
             for(ItemStack s : requirements){
                 if(itemStack.getItem().id == s.getItem().id){
@@ -74,9 +76,30 @@ public class CraftingDialog extends PopupDialog {
         }
     }
 
-    public void craft(){
+    public void craft(Player p){
+        System.out.println("Crafting");
         Item item = craftableItems[pos];
-        
+        System.out.println("crafting: " + item.id);
+        ArrayList<ItemStack> requirements = item.getCraftRequirements();
+
+        CopyOnWriteArrayList<ItemStack> pInv = p.i.getItems();
+
+        for(ItemStack i : requirements){
+            System.out.println("Requirement: " + i.getItem().id);
+            for(ItemStack pItem : pInv){
+                System.out.println("Inv item: " + i.getItem().id);
+                if(i.getItem().id == pItem.getItem().id){
+                    System.out.println("Match found");
+                    if(i.getCount() <= pItem.getCount()){
+                        pItem.removeItems(i.getCount());
+                        p.i.addItem(Item.woodAxe,1);
+                    }
+                }else{
+                    System.out.println(i.getItem().id);
+                    System.out.println(pItem.getItem().id);
+                }
+            }
+        }
     }
 
     Level l;
@@ -87,9 +110,7 @@ public class CraftingDialog extends PopupDialog {
     }
 
     @Override
-    public void keyReleased(int key) {
-        if(key == Keyboard.KEY_RETURN){
-
-        }
+    public void keyReleased(int key,Player p) {
+            craft(p);
     }
 }

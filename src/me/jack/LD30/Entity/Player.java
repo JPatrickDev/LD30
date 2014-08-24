@@ -7,6 +7,8 @@ import me.jack.LD30.Particle.TreeBreakParticle;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
 
 /**
  * Created by Jack on 23/08/2014.
@@ -16,9 +18,18 @@ public class Player extends Mob{
 
 
     public Inventory i = new Inventory();
+
+    public Image player = null;
     public Player(int x, int y) {
         super(x, y);
         this.health = 20;
+        try {
+            player = new Image("/res/player.png");
+            player.setFilter(Image.FILTER_NEAREST);
+            player = player.getScaledCopy(4f);
+        } catch (SlickException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -54,7 +65,7 @@ public class Player extends Mob{
 
     @Override
     public void render(Graphics g) {
-             g.fillRect(getX(),getY(),64,64);
+             g.drawImage(player,getX(),getY());
     }
 
     public void click(int x, int y,Level level) {
