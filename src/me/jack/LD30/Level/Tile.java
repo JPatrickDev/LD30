@@ -10,23 +10,19 @@ import org.newdawn.slick.SpriteSheet;
 public class Tile {
 
 
-
     public Image sprite;
     public boolean solid = false;
     public static SpriteSheet sprites;
 
     public static void load() throws SlickException {
-        sprites = new SpriteSheet(new Image("/res/sprites.png").getScaledCopy(8f),128,128);
+        Image s = new Image("/res/tiles.png");
+        s.setFilter(Image.FILTER_NEAREST);
+                s = s.getScaledCopy(8f);
+        sprites = new SpriteSheet(s, 128, 128);
     }
 
-    public Tile(String image,boolean solid){
-        try {
-            sprite = new Image(image);
-            sprite.setFilter(Image.FILTER_NEAREST);
-            sprite = sprite.getScaledCopy(8f);
-        } catch (SlickException e) {
-            e.printStackTrace();
-        }
+    public Tile(int x, int y,boolean solid) {
+        sprite = sprites.getSprite(x,y);
         this.solid = solid;
     }
 }

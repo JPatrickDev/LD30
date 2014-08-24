@@ -20,6 +20,10 @@ public class Zombie extends Mob {
     public Zombie(int x, int y) {
         super(x, y);
 
+
+
+        System.out.println("ZOmbie");
+
         try {
             if (zombie == null) {
                 zombie = new Image("/res/zombie.png");
@@ -30,6 +34,7 @@ public class Zombie extends Mob {
             e.printStackTrace();
         }
 
+        health = 10;
     }
 
     Point patrol1;
@@ -46,9 +51,10 @@ public class Zombie extends Mob {
     @Override
     public void update(Level level) {
 
-        //todo Select two points near Zombie, patrol between them, If player comes within 5 tiles of Zombie, move towards him
-        //todo Don't try to use a star to attack player, zombies are not clever
-
+        if(health <=0){
+            level.entities.remove(this);
+            return;
+        }
         if (nearPlayer == false) {
             if (patrol1 == null) {
                 patrol1 = new Point(getX(), getY());
@@ -98,11 +104,10 @@ public class Zombie extends Mob {
                     }
 
                     if (getX() / 128 == nextStep.getX() && getY() / 128 == nextStep.getY()) {
-                        System.out.println("Close, moving to next step");
+
                         pos++;
 
                         if (pos >= movement.getLength()) {
-                            System.out.println("Patrol point reached, turning");
                             pos = 1;
                             patrol1 = null;
                             patrol2 = null;
@@ -187,7 +192,6 @@ public class Zombie extends Mob {
             }
         }
 
-        System.out.println("Point created: " + x + "-" + y);
         return new Point(x * 128, y * 128);
     }
 

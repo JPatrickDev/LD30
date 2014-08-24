@@ -3,16 +3,20 @@ package me.jack.LD30.Level;
 import me.jack.LD30.Entity.Entity;
 import me.jack.LD30.Entity.Player;
 import me.jack.LD30.Entity.Zombie;
+import org.lwjgl.Sys;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.geom.*;
 import org.newdawn.slick.util.pathfinding.AStarPathFinder;
 import org.newdawn.slick.util.pathfinding.PathFindingContext;
 import org.newdawn.slick.util.pathfinding.TileBasedMap;
 import uk.co.jdpatrick.JEngine.Particle.ParticleSystem;
 
-import java.awt.*;
+import java.awt.Point;
+import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -47,6 +51,8 @@ public class Level implements TileBasedMap{
     public Camera c;
 
 
+
+
     public AStarPathFinder pathFinder = null;
 
     private int width,height;
@@ -55,11 +61,11 @@ public class Level implements TileBasedMap{
 
 
     public static void initTiles() {
-        water = new Tile("/res/water.png",true);
-        grass = new Tile("/res/grass.png",false);
-        sand = new Tile("/res/sand.png",false);
+        water = new Tile(2,0,true);
+        grass = new Tile(0,0,false);
+        sand = new Tile(1,0,false);
 
-        tree = new Tile("/res/tree.png",true);
+        tree = new Tile(3,0,true);
     }
 
 
@@ -88,30 +94,31 @@ public class Level implements TileBasedMap{
 
 
 
-
-
     }
 
-    public void postGeneration(){
+    public void postGeneration(boolean testing){
         Point spawn = LevelGenerator.findSpawnLocation(this);
-        p = new Player((int)spawn.getX() * tileSize,(int)spawn.getY() * tileSize);
         this.spawn = spawn;
+        if(!testing) {
 
-        pathFinder = new AStarPathFinder(this,50,false);
-        Random r = new Random();
+            p = new Player((int) spawn.getX() * tileSize, (int) spawn.getY() * tileSize);
 
-        for(int i = 0;i!= 30;i++) {
-            int x = r.nextInt(getWidth());
-            int y = r.nextInt(getHeight());
 
-            float tile = getTiles()[x][y];
-            float tree = getTrees()[x][y];
-            if (tile == 0 && tree != 1) {
-                entities.add(new Zombie(x * tileSize, y * tileSize));
+            pathFinder = new AStarPathFinder(this, 50, false);
+            Random r = new Random();
+
+            for (int i = 0; i != 30; i++) {
+                int x = r.nextInt(getWidth());
+                int y = r.nextInt(getHeight());
+
+                float tile = getTiles()[x][y];
+                float tree = getTrees()[x][y];
+                if (tile == 0 && tree != 1) {
+                    entities.add(new Zombie(x * tileSize, y * tileSize));
+                }
+
             }
-
         }
-
 
 
     }
@@ -150,7 +157,6 @@ public class Level implements TileBasedMap{
 
         system.render(g,0,0);
         g.resetTransform();;
-
     }
 
     public void update(GameContainer gc){
@@ -261,5 +267,19 @@ public class Level implements TileBasedMap{
     @Override
     public float getCost(PathFindingContext pathFindingContext, int i, int i2) {
         return 0;
+    }
+
+    public ArrayList<Entity> getEntitiesInArea(Circle attackRange) {
+        ArrayList<Entity> e = new ArrayList<Entity>();
+        System.out.println("Getting entities");
+        for(Entity i : entities){
+            if(attackRange.intersects(new org.newdawn.slick.geom.Rectangle(i.getX(),i.getY(),64,64))){
+                System.out.println("Entity added");
+                e.add(i);
+            }
+        }
+
+
+        return e;
     }
 }

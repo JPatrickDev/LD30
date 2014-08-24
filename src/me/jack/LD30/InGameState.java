@@ -2,6 +2,7 @@ package me.jack.LD30;
 
 import me.jack.LD30.GUI.*;
 import me.jack.LD30.Item.Item;
+import me.jack.LD30.Level.GenerationOptions;
 import me.jack.LD30.Level.Level;
 import me.jack.LD30.Level.LevelGenerator;
 import me.jack.LD30.Level.Tile;
@@ -18,7 +19,7 @@ import org.newdawn.slick.state.StateBasedGame;
 public class InGameState extends BasicGameState{
 
 
-    Level l = LevelGenerator.generateLevel(30,30);
+    Level l = LevelGenerator.generateLevel(30,30,false, GenerationOptions.WATER);
 
     @Override
     public int getID() {

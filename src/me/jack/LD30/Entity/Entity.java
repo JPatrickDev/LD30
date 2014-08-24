@@ -36,7 +36,7 @@ public abstract class Entity {
 
 
     public void knockback(Level l, int strength, int direction){
-        System.out.println("Knockback");
+       // System.out.println("Knockback");s
 
         int xa = 0;
         int ya = 0;

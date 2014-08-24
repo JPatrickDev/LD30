@@ -8,6 +8,8 @@ import org.lwjgl.input.Keyboard;
 import org.newdawn.slick.*;
 import org.newdawn.slick.geom.Circle;
 
+import java.util.ArrayList;
+
 /**
  * Created by Jack on 23/08/2014.
  */
@@ -23,6 +25,7 @@ public class Player extends Mob {
 
     public Circle attackDistance = new Circle(50,50, 2*128);
 
+    public Circle attackRange = new Circle(50,50,128);
     public Player(int x, int y) {
         super(x, y);
         this.health = 20;
@@ -40,6 +43,9 @@ public class Player extends Mob {
 
         attackDistance.setCenterX(x + 32);
         attackDistance.setCenterY(y + 32);
+        attackRange.setCenterX(x + 32);
+        attackRange.setCenterY(y + 32);
+
     }
 
     @Override
@@ -71,6 +77,9 @@ public class Player extends Mob {
         attackDistance.setCenterX(x + 32);
         attackDistance.setCenterY(y + 32);
 
+        attackRange.setCenterX(x + 32);
+        attackRange.setCenterY(y + 32);
+
     }
 
     @Override
@@ -78,7 +87,7 @@ public class Player extends Mob {
 
         Color c = Color.magenta;
         g.setColor(c);
-        g.draw(attackDistance);
+        g.draw(attackRange);
         g.setColor(Color.white);
 
 
@@ -117,9 +126,17 @@ public class Player extends Mob {
             level.entities.add(new DroppedItem((tX * 128) + 64, (tY * 128) + 64, Item.apple));
 
         } else {
-           // level.entities.add(new Zombie((tX * 128) + 64, (tY * 128) + 64));
+            level.entities.add(new Zombie((tX * 128) + 64, (tY * 128) + 64));
 
-            
+
+            ArrayList<Entity> attack = level.getEntitiesInArea(attackRange);
+
+            for(Entity e : attack){
+                if(e instanceof Zombie){
+                    ((Zombie) e).health-=5;
+                }
+            }
+
         }
 
 

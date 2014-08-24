@@ -59,7 +59,9 @@ public class LevelGenerator {
     }
 
 
-    public static float[][] generatePerlinNoise(float[][] noise, int oC, float persistence) {
+    public static float[][] generatePerlinNoise(float[][] noise,GenerationOptions options) {
+        int oC = options.octave_count;
+        float persistence = options.persistence;
         int w = noise.length;
         int h = noise[0].length;
 
@@ -72,7 +74,7 @@ public class LevelGenerator {
 
         float[][] perlinNoise = new float[w][h];
 
-        float amplitude = 1.0f;
+        float amplitude = 0.5f;
         float totalAmplitude = 0.0f;
 
         for (int octave = oC - 1; octave > 0; octave--) {
@@ -101,14 +103,14 @@ public class LevelGenerator {
     }
 
 
-    public static float[][] group(float[][] noise) {
+    public static float[][] group(float[][] noise,GenerationOptions options) {
         float[][] grouped = new float[noise.length][noise[0].length];
 
         for (int x = 0; x != noise.length; x++) {
             for (int y = 0; y != noise[0].length; y++) {
                 float t = noise[x][y];
-                if (t > 0.50) t = 1;
-                else if (t < 0.5 && t > 0.4) t = 0.5f;
+                if (t > options.water_start) t = 1;
+                else if (t < options.sand_end&& t > options.sand_start) t = 0.5f;
                 else t = 0;
 
                 grouped[x][y] = t;
@@ -117,7 +119,7 @@ public class LevelGenerator {
         return grouped;
     }
 
-    public static Level generateLevel(int width, int height) {
+    public static Level generateLevel(int width, int height,boolean test,GenerationOptions options) {
 
         long start = System.currentTimeMillis();
         boolean valid = false;
@@ -125,8 +127,8 @@ public class LevelGenerator {
         while (!valid) {
             Random r = new Random();
             float[][] whitenoise = generateWhiteNoise(width, height, r);
-            float[][] perlinNoise = generatePerlinNoise(whitenoise, 4, 0.2f);
-            float[][] tiled = group(perlinNoise);
+            float[][] perlinNoise = generatePerlinNoise(whitenoise,options);
+            float[][] tiled = group(perlinNoise,options);
 
             float[][] trees = trees(width,height);
 
@@ -149,7 +151,7 @@ public class LevelGenerator {
         }
         long end = System.currentTimeMillis();
 
-        l.postGeneration();
+        l.postGeneration(test);
         System.out.println("Level generation took: " + (end - start));
 
 
@@ -159,8 +161,8 @@ public class LevelGenerator {
 
     public static float[][] trees(int w, int h) {
         float[][] white = generateWhiteNoise(w, h, new Random());
-        float[][] perlin = generatePerlinNoise(white, 3, 0.7f);
-
+       // float[][] perlin = generatePerlinNoise(white, 3, 0.7f);
+        float[][] perlin = white;
         for (int x = 0; x != perlin.length; x++) {
             for (int y = 0; y != perlin[0].length; y++) {
                 float p = perlin[x][y];
@@ -197,7 +199,7 @@ public class LevelGenerator {
     }
 
     public static float[][] generateForrest() {
-
+/*
         boolean valid = false;
         while (!valid) {
 
@@ -226,6 +228,9 @@ public class LevelGenerator {
                 return perlin;
             }
         }
+        return null;
+        */
+
         return null;
     }
 
@@ -350,7 +355,7 @@ public class LevelGenerator {
 
             int[] pixels = new int[w * h];
 
-            Level l = generateLevel(w, h);
+            Level l = generateLevel(w, h,true,GenerationOptions.MIXED);
 
 
                float[][] perlin = l.getTiles();
@@ -380,6 +385,10 @@ public class LevelGenerator {
             JOptionPane.showMessageDialog(null, null, "Test", JOptionPane.YES_NO_OPTION, new ImageIcon(image.getScaledInstance(w * 10, h * 10, 0)));
         }
 
+    }
+
+    public static boolean corner(float[][] map, int x,int y){
+        return true;
     }
 
 
