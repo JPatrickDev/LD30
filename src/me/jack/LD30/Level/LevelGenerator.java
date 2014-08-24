@@ -147,6 +147,7 @@ public class LevelGenerator {
             l.setTrees(trees);
             l.setTiles(tiled);
             addPortal(l);
+            addKey(l);
             valid = validate(l);
             //valid = true;
         }
@@ -380,6 +381,10 @@ public class LevelGenerator {
                     if(x == l.level_portal.getX() && y == l.level_portal.getY()){
                         pixels[x+y*w] = Color.pink.hashCode();
                     }
+
+                    if(x == l.level_key.getX() && y == l.level_key.getY()){
+                        pixels[x+y*w] = Color.red.hashCode();
+                    }
                 }
             }
 
@@ -417,9 +422,40 @@ public class LevelGenerator {
 
             if(trees[x][y] != 0)continue;
 
-            System.out.println("Spawn point found");
             spawnFound = true;
             l.setPortal(x,y);
+        }
+
+    }
+
+
+    public static void addKey(Level l){
+        Random r = new Random();
+
+
+        float[][] tiles = l.getTiles();
+        float[][] trees = l.getTrees();
+
+        boolean spawnFound = false;
+        int tries =0;
+
+        while(!spawnFound){
+            tries++;
+
+            int x = r.nextInt(l.getWidth());
+            int y = r.nextInt(l.getHeight());
+
+
+            float tileAttempt = tiles[x][y];
+
+            if(tileAttempt != 0)continue;
+
+            if(!surrounded(0,tiles,x,y,l.getWidth(),l.getHeight()))continue;
+
+            if(trees[x][y] != 0)continue;
+
+            spawnFound = true;
+            l.setKey(new Point(x,y));
         }
 
     }

@@ -23,6 +23,9 @@ public class DroppedItem extends Entity{
         if(random.nextBoolean())xa = -xa;
     }
 int time = 0;
+
+
+
     @Override
     public void update(Level level) {
         time++;

@@ -23,6 +23,8 @@ public class Item {
 
     public static Item woodAxe;
     public static Item woodSword;
+
+    public static Item key;
     public static void init() throws SlickException {
 
         Image i = new Image("/res/items.png");
@@ -38,6 +40,8 @@ public class Item {
         woodAxe.craftRequirements.add(new ItemStack(Item.logs,2));
         woodSword = new Item(3,0,3);
         woodSword.craftRequirements.add(new ItemStack(Item.logs,3));
+
+        key = new Item(0,1,4);
     }
 
     private Image sprite;

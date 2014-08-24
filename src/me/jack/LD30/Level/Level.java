@@ -1,15 +1,19 @@
 package me.jack.LD30.Level;
 
+import me.jack.LD30.Entity.DroppedItem;
 import me.jack.LD30.Entity.Entity;
 import me.jack.LD30.Entity.Player;
 import me.jack.LD30.Entity.Zombie;
 import me.jack.LD30.InGameState;
+import me.jack.LD30.Item.Item;
+import me.jack.LD30.Item.ItemStack;
 import org.lwjgl.Sys;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.*;
 import org.newdawn.slick.util.pathfinding.AStarPathFinder;
 import org.newdawn.slick.util.pathfinding.PathFindingContext;
@@ -55,7 +59,9 @@ public class Level implements TileBasedMap{
     public Camera c;
 
     public Point level_portal;
+    public Point level_key;
 
+    static Image unactive_portal;
 
 
     public AStarPathFinder pathFinder = null;
@@ -73,6 +79,8 @@ public class Level implements TileBasedMap{
         tree = new Tile(3,0,true);
 
         portal = new Tile(new Point[]{ new Point(0,2),new Point(1,2),new Point(2,2), new Point(3,2)},false);
+
+        unactive_portal = Tile.sprites.getSprite(3,1);
     }
 
 
@@ -125,12 +133,15 @@ public class Level implements TileBasedMap{
                 }
 
             }
+
+            entities.add(new DroppedItem((int)level_key.getX() * 128,(int)level_key.getY()*128,Item.key));
+
         }
 
 
     }
 
-    public Player p;
+    public static Player p;
     public void render(Graphics g) {
 
 
@@ -163,8 +174,11 @@ public class Level implements TileBasedMap{
         p.render(g);
 
         system.render(g,0,0);
-
+    if(p.i.contains(new ItemStack(Item.key,1)))
        portal.animation.draw((int)level_portal.getX()*128,(int)level_portal.getY() * 128);
+        else{
+            g.drawImage(unactive_portal,(float)level_portal.getX()*128,(float)level_portal.getY()*128);
+    }
         g.resetTransform();;
     }
 
@@ -220,7 +234,14 @@ public class Level implements TileBasedMap{
             int tileX = x/128;
             int tileY = y/ 128;
             if(tileX == level_portal.x && tileY == level_portal.y){
-                nextLevel();
+                if(p.i.contains(new ItemStack(Item.key,1))) {
+                    nextLevel();
+                   for(ItemStack ii : p.i.getItems()){
+                       if(ii.getItem().id == 4){
+                           ii.removeItem();
+                       }
+                   }
+                }
             }
         }
 
@@ -307,5 +328,9 @@ public class Level implements TileBasedMap{
 
     public void setPortal(int x, int y) {
         level_portal = new Point(x,y);
+    }
+
+    public void setKey(Point point) {
+        this.level_key = point;
     }
 }
