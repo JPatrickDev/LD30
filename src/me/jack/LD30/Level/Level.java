@@ -221,6 +221,8 @@ public class Level implements TileBasedMap{
     }
 
     public boolean canMove(int x,int y,int w,int h,Entity caller){
+        if( x < 0 || x+64 > level.length*tileSize)return false;
+        if(y < 0 || y + 64> level[0].length*tileSize) return false;
         Rectangle r = new Rectangle(x,y,w,h);
         for(Rectangle i : hitboxes){
             if(r.intersects(i) && !(caller instanceof Player))return false;

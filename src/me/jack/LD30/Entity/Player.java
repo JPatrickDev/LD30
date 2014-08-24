@@ -94,26 +94,30 @@ public class Player extends Mob {
         if (Keyboard.isKeyDown(Keyboard.KEY_A)) {
             if (level.canMove(x - 3, y, 64, 64,this)) {
                 x -= 4;
-                facing = 3;
+
             }
+            facing = 3;
         }
         if (Keyboard.isKeyDown(Keyboard.KEY_D)) {
             if (level.canMove(x + 3, y, 64, 64,this)) {
                 x += 4;
-                facing = 1;
+
             }
+            facing = 1;
         }
         if (Keyboard.isKeyDown(Keyboard.KEY_W)) {
             if (level.canMove(x, y - 3, 64, 64,this)) {
                 y -= 4;
-                facing = 0;
+
             }
+            facing = 0;
         }
         if (Keyboard.isKeyDown(Keyboard.KEY_S)) {
             if (level.canMove(x, y + 3, 64, 64,this)) {
                 y += 4;
-                facing = 2;
+
             }
+            facing = 2;
         }
 
         attackDistance.setCenterX(x + 32);
