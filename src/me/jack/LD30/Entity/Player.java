@@ -32,6 +32,12 @@ public class Player extends Mob {
 
     public boolean isSwimming = false;
 
+
+    private Animation run_down = new Animation();
+    private Animation run_up = new Animation();
+    private Animation run_right = new Animation();
+    private Animation run_left = new Animation();
+
     public Player(int x, int y) {
         super(x, y);
         this.health = 20;
@@ -44,6 +50,29 @@ public class Player extends Mob {
             player = sprites.getSprite(0,0);
             damaged = sprites.getSprite(3,3);
             swimming = sprites.getSprite(3,2);
+
+            run_down.addFrame(sprites.getSprite(0,0),250);
+            run_down.addFrame(sprites.getSprite(1,0),250);
+            run_down.setLooping(true);
+            run_down.setAutoUpdate(true);
+
+            run_up.addFrame(sprites.getSprite(0,1),250);
+            run_up.addFrame(sprites.getSprite(1,1),250);
+            run_up.setLooping(true);
+            run_up.setAutoUpdate(true);
+
+
+            run_right.addFrame(sprites.getSprite(0,2),250);
+            run_right.addFrame(sprites.getSprite(1,2),250);
+            run_right.setLooping(true);
+            run_right.setAutoUpdate(true);
+
+
+
+            run_left.addFrame(sprites.getSprite(0,3),250);
+            run_left.addFrame(sprites.getSprite(1,3),250);
+            run_left.setLooping(true);
+            run_left.setAutoUpdate(true);
         } catch (SlickException e) {
             e.printStackTrace();
         }
@@ -55,31 +84,37 @@ public class Player extends Mob {
 
     }
 
+    private int facing = 0;
+
     @Override
     public void update(Level level) {
 
 
-        if (Keyboard.isKeyDown(Keyboard.KEY_W)) {
-            if (level.canMove(x, y - 3, 64, 64,this)) {
-                y -= 4;
-            }
-        }
-        if (Keyboard.isKeyDown(Keyboard.KEY_S)) {
-            if (level.canMove(x, y + 3, 64, 64,this)) {
-                y += 4;
-            }
-        }
+
         if (Keyboard.isKeyDown(Keyboard.KEY_A)) {
             if (level.canMove(x - 3, y, 64, 64,this)) {
                 x -= 4;
+                facing = 3;
             }
         }
         if (Keyboard.isKeyDown(Keyboard.KEY_D)) {
             if (level.canMove(x + 3, y, 64, 64,this)) {
                 x += 4;
+                facing = 1;
             }
         }
-
+        if (Keyboard.isKeyDown(Keyboard.KEY_W)) {
+            if (level.canMove(x, y - 3, 64, 64,this)) {
+                y -= 4;
+                facing = 0;
+            }
+        }
+        if (Keyboard.isKeyDown(Keyboard.KEY_S)) {
+            if (level.canMove(x, y + 3, 64, 64,this)) {
+                y += 4;
+                facing = 2;
+            }
+        }
 
         attackDistance.setCenterX(x + 32);
         attackDistance.setCenterY(y + 32);
@@ -108,8 +143,12 @@ public class Player extends Mob {
         g.setColor(Color.white);
 
 
-    if(!isSwimming)
-        g.drawImage(player, getX(), getY());
+    if(!isSwimming) {
+        if(facing == 0)run_up.draw(getX(),getY());
+        if(facing == 1)run_right.draw(getX(),getY());
+        if(facing == 2)run_down.draw(getX(),getY());
+        if(facing == 3)run_left.draw(getX(),getY());
+    }
     else
         g.drawImage(swimming,getX(),getY());
     }
