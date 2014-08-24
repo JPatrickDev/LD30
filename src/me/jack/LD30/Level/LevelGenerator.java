@@ -265,7 +265,7 @@ public class LevelGenerator {
 
 
 
-            if(tiles[x][y] == 0)continue;
+
 
             if(trees[x][y] != 0)continue;
 

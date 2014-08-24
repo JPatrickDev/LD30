@@ -41,18 +41,18 @@ public abstract class Entity {
         int xa = 0;
         int ya = 0;
             if(direction == 0){
-                    ya -= 32;
+                    ya -= 32 * strength;
 
             }else if(direction == 1){
-                    xa+=32;
+                    xa+=32* strength;
 
             }else if(direction == 2){
 
-                        ya+=32;
+                        ya+=32 * strength;
                     }
 
             else if(direction ==3){
-                xa-=32;
+                xa-=32 * strength;
             }
 
         if(l.canMove(x+xa,y+ya,64,64,this)){

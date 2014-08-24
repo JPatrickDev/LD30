@@ -216,7 +216,7 @@ public class Zombie extends Mob {
 
         if(getY() > p.getY())direction = 0;
         if(getY() < p.getY())direction = 2;
-        p.knockback(parent,2,direction);
+        p.knockback(parent,1,direction);
         p.health-=0.25;
 
     }

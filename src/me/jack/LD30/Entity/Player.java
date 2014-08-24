@@ -25,7 +25,7 @@ public class Player extends Mob {
 
     public SpriteSheet sprites;
 
-    public Circle attackDistance = new Circle(50,50, 2*128);
+    public Circle attackDistance = new Circle(50,50, 4*128);
 
     public Circle attackRange = new Circle(50,50,128);
 
@@ -197,12 +197,25 @@ public class Player extends Mob {
 
             for(Entity e : attack){
                 if(e instanceof Zombie){
+
+                    int cX = getX() + 32;
+                    int cY = getY() + 32;
+
+                    boolean inRange = false;
+
+                    if(facing == 0 && e.getY()< getY())inRange =true;
+                    else if(facing == 1 && e.getX() > getX())inRange = true;
+                    else if(facing == 2 && e.getY() > getY()) inRange = true;
+                    else if(facing == 3 && e.getX() < getX()) inRange = true;
+
+                    if(!inRange)continue;
+
                     if(i.contains(new ItemStack(Item.woodSword,1,null))){
                     ((Zombie) e).health-=10;
                     }else{
                         ((Zombie) e).health-=5;
                     }
-                    e.knockback(level,5,facing);
+                    e.knockback(level,2,facing);
                 }
             }
 
