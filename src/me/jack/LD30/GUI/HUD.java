@@ -1,6 +1,7 @@
 package me.jack.LD30.GUI;
 
 import me.jack.LD30.Item.Inventory;
+import me.jack.LD30.Item.Item;
 import me.jack.LD30.Item.ItemStack;
 import me.jack.LD30.Level.Level;
 import org.newdawn.slick.*;
@@ -70,6 +71,11 @@ public class HUD {
         startX = gap_per_line*2;
         startY = 505;
 
-        Text.drawLarge("Crafting",g,startX,startY);
+        Text.drawLarge("Equipped",g,startX,startY);
+        startY+=34;
+        if(i.contains(new ItemStack(Item.woodAxe,1,null))){
+            g.drawImage(Item.woodAxe.getIcon(),startX + 5,startY);
+            startY += 24;
+        }
     }
 }
