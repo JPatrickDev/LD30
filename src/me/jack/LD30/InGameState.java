@@ -13,6 +13,8 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
+import java.awt.*;
+
 /**
  * Created by Jack on 23/08/2014.
  */
@@ -20,6 +22,11 @@ public class InGameState extends BasicGameState{
 
 
     Level[] levels = new Level[3];
+
+
+    public static int score = 0;
+    public static long startTime = 0;
+    public static long timeTaken = 0;
     @Override
     public int getID() {
         return 1;
@@ -48,6 +55,7 @@ public class InGameState extends BasicGameState{
         Item.init();
         Numbers.init();
         Text.init();
+        Sounds.init();
 
         levels[0] = LevelGenerator.generateLevel(30,30,false,GenerationOptions.BEACHES);
         System.out.println("Level 1");
@@ -56,6 +64,8 @@ public class InGameState extends BasicGameState{
         System.out.println("Level 2");
         levels[2] = LevelGenerator.generateLevel(30,30,false,GenerationOptions.LARGE_ISLANDS);
         System.out.println("Level 3");
+
+        startTime = System.currentTimeMillis();
      }
 
     private PopupDialog current = null;
@@ -66,9 +76,21 @@ public class InGameState extends BasicGameState{
         getCurrentLevel().render(graphics);
         HUD.drawHUD(graphics,getCurrentLevel());
 
+        Text.drawLarge("Score ",graphics,32,100);
+        Text.drawLarge("Time Taken ",graphics,32,150);
+        Text.drawLarge("World ",graphics,32,200);
+
+        Numbers.drawLarge(score + "",graphics,116,90);
+        Numbers.drawLarge((timeTaken/1000) + "",graphics,200,140);
+        Numbers.drawLarge((currentLevel + 1) + "",graphics,128,190);
+
         if(current != null){
             current.render(graphics);
         }
+
+
+
+
     }
 
 
@@ -76,6 +98,7 @@ public class InGameState extends BasicGameState{
     public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int i) throws SlickException {
            if(current ==null) getCurrentLevel().update(gameContainer);
         if(current != null)current.update(gameContainer,getCurrentLevel());
+        timeTaken+=i;
     }
 
 

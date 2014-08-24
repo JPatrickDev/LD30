@@ -1,6 +1,7 @@
 package me.jack.LD30.GUI;
 
 import me.jack.LD30.Entity.Player;
+import me.jack.LD30.InGameState;
 import me.jack.LD30.Item.Item;
 import me.jack.LD30.Item.ItemStack;
 import me.jack.LD30.Level.Level;
@@ -93,6 +94,7 @@ public class CraftingDialog extends PopupDialog {
                     if(i.getCount() <= pItem.getCount()){
                         pItem.removeItems(i.getCount());
                         p.i.addItem(item,1);
+                        InGameState.score+=20;
                     }
                 }else{
                     System.out.println(i.getItem().id);

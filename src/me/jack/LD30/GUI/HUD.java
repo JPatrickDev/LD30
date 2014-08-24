@@ -75,7 +75,11 @@ public class HUD {
         startY+=34;
         if(i.contains(new ItemStack(Item.woodAxe,1,null))){
             g.drawImage(Item.woodAxe.getIcon(),startX + 5,startY);
-            startY += 24;
+            startX += 24;
+        }
+        if(i.contains(new ItemStack(Item.woodSword,1,null))){
+            g.drawImage(Item.woodSword.getIcon(),startX + 5,startY);
+            startX += 24;
         }
     }
 }

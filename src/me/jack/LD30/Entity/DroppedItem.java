@@ -1,5 +1,6 @@
 package me.jack.LD30.Entity;
 
+import me.jack.LD30.InGameState;
 import me.jack.LD30.Item.Item;
 import me.jack.LD30.Level.Level;
 import org.newdawn.slick.Graphics;
@@ -60,6 +61,7 @@ int time = 0;
     public void steppedOn(Player p,Level level){
         level.entities.remove(this);
         p.i.addItem(i,1);
+        InGameState.score+=5;
     }
 
     @Override

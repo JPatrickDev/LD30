@@ -1,6 +1,8 @@
 package me.jack.LD30.Entity;
 
+import me.jack.LD30.InGameState;
 import me.jack.LD30.Level.Level;
+import me.jack.LD30.Sounds;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
@@ -53,6 +55,7 @@ public class Zombie extends Mob {
 
         if(health <=0){
             level.entities.remove(this);
+            InGameState.score+=10;
             return;
         }
         if (nearPlayer == false) {
@@ -217,8 +220,12 @@ public class Zombie extends Mob {
         if(getY() > p.getY())direction = 0;
         if(getY() < p.getY())direction = 2;
         p.knockback(parent,1,direction);
-        if(p.health - 0.25 >=0)
-        p.health-=0.25;
+        if(p.health - 0.25 >=0) {
+            if(p.health - (int)p.health ==0)
+            Sounds.hurt.play();;
+            p.health -= 0.25;
+
+        }
 
     }
 }

@@ -7,6 +7,7 @@ import me.jack.LD30.Entity.Zombie;
 import me.jack.LD30.InGameState;
 import me.jack.LD30.Item.Item;
 import me.jack.LD30.Item.ItemStack;
+import me.jack.LD30.Sounds;
 import org.lwjgl.Sys;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
@@ -201,7 +202,7 @@ public class Level implements TileBasedMap{
             }
         }
     tick_count++;
-        if(tick_count == 5){
+        if(tick_count == 60){
             tick_count = 0;
             Random r = new Random();
             int x = r.nextInt(getWidth());
@@ -222,6 +223,7 @@ public class Level implements TileBasedMap{
 
     public void nextLevel(){
         InGameState.next();
+        InGameState.score+=50;
     }
 
     public boolean canMove(int x,int y,int w,int h,Entity caller){
@@ -261,6 +263,7 @@ public class Level implements TileBasedMap{
             if(tileX == level_portal.x && tileY == level_portal.y){
                 if(p.i.contains(new ItemStack(Item.key,1,null))) {
                     nextLevel();
+                    Sounds.portal.play();;
                    for(ItemStack ii : p.i.getItems()){
                        if(ii.getItem().id == 4){
                            ii.removeItem();

@@ -1,10 +1,12 @@
 package me.jack.LD30.Entity;
 
+import me.jack.LD30.InGameState;
 import me.jack.LD30.Item.Inventory;
 import me.jack.LD30.Item.Item;
 import me.jack.LD30.Item.ItemStack;
 import me.jack.LD30.Level.Level;
 import me.jack.LD30.Particle.TreeBreakParticle;
+import me.jack.LD30.Sounds;
 import org.lwjgl.input.Keyboard;
 import org.newdawn.slick.*;
 import org.newdawn.slick.geom.Circle;
@@ -184,6 +186,7 @@ public class Player extends Mob {
                         iii.removeItem();
                         if(health <20){
                             health+=2;
+                            Sounds.health.play();
                         }
                     }
                 }
@@ -210,6 +213,7 @@ public class Player extends Mob {
                 level.system.addParticle(new TreeBreakParticle((tX * 128) + 64, (tY * 128) + 64));
             }
 
+            InGameState.score+=5;
 
             if(i.contains(new ItemStack(Item.woodAxe,1,null))){
                 level.entities.add(new DroppedItem((tX * 128) + 64, (tY * 128) + 64, Item.logs));
