@@ -41,7 +41,7 @@ public class InGameState extends BasicGameState{
 
     }
 
-    private static int currentLevel = 0;
+    public static int currentLevel = 0;
 
     public Level getCurrentLevel(){
        return levels[currentLevel];
@@ -53,17 +53,15 @@ public class InGameState extends BasicGameState{
         Level.initTiles();
         HUD.init();
         Item.init();
-        Numbers.init();
-        Text.init();
+
         Sounds.init();
 
         levels[0] = LevelGenerator.generateLevel(30,30,false,GenerationOptions.BEACHES);
-        System.out.println("Level 1");
+
 
         levels[1] = LevelGenerator.generateLevel(30,30,false, GenerationOptions.MIXED);
-        System.out.println("Level 2");
+
         levels[2] = LevelGenerator.generateLevel(30,30,false,GenerationOptions.LARGE_ISLANDS);
-        System.out.println("Level 3");
 
         startTime = System.currentTimeMillis();
      }
@@ -93,12 +91,22 @@ public class InGameState extends BasicGameState{
 
     }
 
+    static boolean over= false;
 
     @Override
     public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int i) throws SlickException {
            if(current ==null) getCurrentLevel().update(gameContainer);
         if(current != null)current.update(gameContainer,getCurrentLevel());
         timeTaken+=i;
+
+
+        if(getCurrentLevel().p.getHealth() <= 0){
+            stateBasedGame.enterState(3);
+        }
+
+        if(over){
+            stateBasedGame.enterState(3);
+        }
     }
 
 
@@ -106,7 +114,6 @@ public class InGameState extends BasicGameState{
     public void keyReleased(int key, char c) {
         super.keyReleased(key, c);
         if(c == 'c'){
-            System.out.println("C pressed");
             if(current == null) {
                 try {
                     current = new CraftingDialog();
@@ -118,6 +125,10 @@ public class InGameState extends BasicGameState{
             }
         }
 
+        if(key == Keyboard.KEY_SPACE){
+            getCurrentLevel().p.click(0,0,getCurrentLevel(),-1);
+        }
+
             if(current != null){
                 current.keyReleased(key,getCurrentLevel().p);
             }
@@ -125,7 +136,10 @@ public class InGameState extends BasicGameState{
     }
 
     public static void next() {
-
-        currentLevel++;
+        if(currentLevel != 2) {
+            currentLevel++;
+        }else{
+            over = true;
+        }
     }
 }

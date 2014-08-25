@@ -158,7 +158,7 @@ public class Level implements TileBasedMap{
                 else if (tileValue == 0.5) c = sand;
                 else c = grass;
 
-
+                if(onScreen(x*tileSize,y*tileSize))
                 g.drawImage(c.sprite, (x * tileSize), (y * tileSize));
 
 
@@ -185,11 +185,31 @@ public class Level implements TileBasedMap{
 
     }
 
+    private boolean onScreen(int x, int y) {
+
+
+        int ox = (x) -c.x;
+        int oy = (y) - c.y;
+
+        int rx = (x + 128) -c.x;
+        int ry = (y + 128) - c.y;
+
+        if(ox > 800)return false;
+        if(rx < 0)return false;
+
+        if(oy > 500)return false;
+        if(ry < 0)return false;
+
+
+        return true;
+    }
+
 
     int tick_count;
 
 
     public void update(GameContainer gc){
+
         p.update(this);
         c.calculate(p.getX(), p.getY());
         system.update();
@@ -202,7 +222,7 @@ public class Level implements TileBasedMap{
             }
         }
     tick_count++;
-        if(tick_count == 60){
+        if(tick_count == 120){
             tick_count = 0;
             Random r = new Random();
             int x = r.nextInt(getWidth());
@@ -342,10 +362,8 @@ public class Level implements TileBasedMap{
 
     public ArrayList<Entity> getEntitiesInArea(Circle attackRange) {
         ArrayList<Entity> e = new ArrayList<Entity>();
-        System.out.println("Getting entities");
         for(Entity i : entities){
             if(attackRange.intersects(new org.newdawn.slick.geom.Rectangle(i.getX(),i.getY(),64,64))){
-                System.out.println("Entity added");
                 e.add(i);
             }
         }

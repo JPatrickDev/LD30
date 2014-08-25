@@ -23,7 +23,7 @@ public class CraftingDialog extends PopupDialog {
 
     private String[] craftable = new String[]{"Axe", "Sword"};
     private Item[] craftableItems = new Item[]{Item.woodAxe, Item.woodSword};
-    private String[] desc = new String[]{"Used to get more\\wood and apple\\per tree", "Kills zombies faster"};
+    private String[] desc = new String[]{"Used to get more\\wood and apple\\per tree", "Kills zombies\\faster"};
 
     int pos = 0;
 
@@ -37,17 +37,25 @@ public class CraftingDialog extends PopupDialog {
 
         int y = 70;
 
+        int tPos = 0;
         for (String s : craftable) {
-            Text.drawLarge(s, g, 70, y);
+            if(tPos == pos){
+                Text.drawLarge(">" + s + "<", g, 70, y);
+            }else {
+                Text.drawLarge(s, g, 70, y);
+            }
+            tPos++;
             y += 24;
         }
 
+        y+=64;
+        Text.drawLarge("Press\\Enter\\to\\craft",g,70,y);
         g.drawImage(craftableItems[pos].getSprite(), 244, 84);
 
 
         Text.drawLarge(craftable[pos], g, 230, 180);
 
-        Text.draw(desc[0], g, 230, 212);
+        Text.draw(desc[pos], g, 230, 212);
 
         Text.drawLarge("Requires", g, 230, 260);
 
@@ -115,11 +123,13 @@ public class CraftingDialog extends PopupDialog {
     public void keyReleased(int key,Player p) {
         if(key == Keyboard.KEY_RETURN)
             craft(p);
-        else if(key == Keyboard.KEY_UP){
+        else if(key == Keyboard.KEY_UP || key == Keyboard.KEY_W){
+            if(pos != 0)
             pos--;
         }
 
-        else if(key == Keyboard.KEY_DOWN){
+        else if(key == Keyboard.KEY_DOWN || key == Keyboard.KEY_S){
+            if(pos != 1)
             pos++;
         }
     }

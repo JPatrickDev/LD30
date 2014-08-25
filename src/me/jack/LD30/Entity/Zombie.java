@@ -23,9 +23,6 @@ public class Zombie extends Mob {
         super(x, y);
 
 
-
-        System.out.println("ZOmbie");
-
         try {
             if (zombie == null) {
                 zombie = new Image("/res/zombie.png");
@@ -73,8 +70,6 @@ public class Zombie extends Mob {
 
                     int pX = (int) patrol2.getX() / 128;
                     int pY = (int) patrol2.getY() / 128;
-                    System.out.println(sX + ":" + sY);
-                    System.out.println(pX + ":" + pY);
 
                     if (movement == null) {
                         patrol1 = null;
@@ -199,11 +194,6 @@ public class Zombie extends Mob {
     @Override
     public void render(Graphics g) {
         g.drawImage(zombie, getX(), getY());
-        if (patrol2 != null) {
-            // g.fillRect((int) patrol2.getX(), (int) patrol2.getY(), 128, 128);
-            //  g.setColor(Color.green);
-            //  g.fillRect(movement.getX(pos)*128,movement.getY(pos) * 128,128,128);
-        }
     }
 
     @Override
@@ -220,10 +210,10 @@ public class Zombie extends Mob {
         if(getY() > p.getY())direction = 0;
         if(getY() < p.getY())direction = 2;
         p.knockback(parent,1,direction);
-        if(p.health - 0.25 >=0) {
+        if(p.health - 0.5 >=0) {
             if(p.health - (int)p.health ==0)
             Sounds.hurt.play();;
-            p.health -= 0.25;
+            p.health -= 0.5;
 
         }
 

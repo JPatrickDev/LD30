@@ -162,7 +162,7 @@ public class LevelGenerator {
         long end = System.currentTimeMillis();
 
         l.postGeneration(test,grass);
-        System.out.println("Level generation took: " + (end - start));
+     //   System.out.println("Level generation took: " + (end - start));
 
 
         return l;
@@ -309,11 +309,11 @@ public class LevelGenerator {
         l.setTiles(tiles);
 
         if(l.level_key == null){
-            System.out.println("Unable to place key");
+          //  System.out.println("Unable to place key");
             return false;
         }
         if(l.level_portal == null){
-            System.out.println("Unable to place portal");
+        //    System.out.println("Unable to place portal");
             return false;
         }
         return true;

@@ -15,6 +15,9 @@ public class LD30 extends StateBasedGame {
 
     @Override
     public void initStatesList(GameContainer gameContainer) throws SlickException {
+        this.addState(new MenuState());
         this.addState(new InGameState());
+        this.addState(new TutorialState());
+        this.addState(new GameOverState());
     }
 }

@@ -101,8 +101,6 @@ public class Player extends Mob {
     @Override
     public void update(Level level) {
 
-
-
         if (Keyboard.isKeyDown(Keyboard.KEY_A)) {
             if (level.canMove(x - 3, y, 64, 64,this)) {
                 x -= 4;
@@ -153,12 +151,6 @@ public class Player extends Mob {
     @Override
     public void render(Graphics g) {
 
-        Color c = Color.magenta;
-        g.setColor(c);
-        g.draw(attackRange);
-        g.setColor(Color.white);
-
-
     if(!isSwimming) {
         if(facing == 0)run_up.draw(getX(),getY());
         if(facing == 1)run_right.draw(getX(),getY());
@@ -196,14 +188,12 @@ public class Player extends Mob {
         int tX = (x + level.c.x) / 128;
         int tY = (y + level.c.y) / 128;
 
-        System.out.println(level.getTiles().length);
         float tile = level.getTiles()[tX][tY];
         float tree = level.getTrees()[tX][tY];
 
-        System.out.println(tX + ":" + tY);
+
 
         if (tree == 1) {
-            System.out.println("Tree clicked");
 
             float[][] trees = level.getTrees();
             trees[tX][tY] = 0;
@@ -224,7 +214,10 @@ public class Player extends Mob {
             }
 
 
-        } else {
+        }
+        if(button == -1 || button == 0){
+
+
             ArrayList<Entity> attack = level.getEntitiesInArea(attackRange);
 
             for(Entity e : attack){
