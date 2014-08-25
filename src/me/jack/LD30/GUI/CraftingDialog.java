@@ -50,6 +50,8 @@ public class CraftingDialog extends PopupDialog {
 
         y+=64;
         Text.drawLarge("Press\\Enter\\to\\craft",g,70,y);
+
+        Text.drawLarge("Press C\\To exit",g,70,y+160);
         g.drawImage(craftableItems[pos].getSprite(), 244, 84);
 
 
