@@ -2,6 +2,7 @@ package me.jack.LD30;
 
 import me.jack.LD30.GUI.Numbers;
 import me.jack.LD30.GUI.Text;
+import org.lwjgl.input.Keyboard;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
@@ -53,6 +54,8 @@ public class GameOverState extends BasicGameState{
 
     @Override
     public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int i) throws SlickException {
+        if(Keyboard.isKeyDown(Keyboard.KEY_RETURN)){
 
+        }
     }
 }

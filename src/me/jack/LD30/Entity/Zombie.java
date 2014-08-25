@@ -85,7 +85,7 @@ public class Zombie extends Mob {
 
                     float xSpeed = ((nextStep.getX() * 128) - x);
                     float ySpeed = ((nextStep.getY() * 128) - y);
-                    float factor = (float) (4 / Math.sqrt(xSpeed * xSpeed + ySpeed * ySpeed));
+                    float factor = (float) (2 / Math.sqrt(xSpeed * xSpeed + ySpeed * ySpeed));
                     xSpeed *= factor;
                     ySpeed *= factor;
 
@@ -116,7 +116,7 @@ public class Zombie extends Mob {
         } else {
             float xSpeed = ((level.p.getX()) - x);
             float ySpeed = ((level.p.getY()) - y);
-            float factor = (float) (4 / Math.sqrt(xSpeed * xSpeed + ySpeed * ySpeed));
+            float factor = (float) (2 / Math.sqrt(xSpeed * xSpeed + ySpeed * ySpeed));
             xSpeed *= factor;
             ySpeed *= factor;
             if (level.canMove((int) (x + xSpeed), (int) (y + ySpeed), 62, 62,this)) {
