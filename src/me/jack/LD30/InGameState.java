@@ -56,15 +56,25 @@ public class InGameState extends BasicGameState{
 
         Sounds.init();
 
+
+        startTime = System.currentTimeMillis();
+     }
+
+    @Override
+    public void enter(GameContainer container, StateBasedGame game) throws SlickException {
+        super.enter(container, game);
         levels[0] = LevelGenerator.generateLevel(30,30,false,GenerationOptions.BEACHES);
 
 
         levels[1] = LevelGenerator.generateLevel(30,30,false, GenerationOptions.MIXED);
 
         levels[2] = LevelGenerator.generateLevel(30,30,false,GenerationOptions.LARGE_ISLANDS);
+        currentLevel = 0;
 
-        startTime = System.currentTimeMillis();
-     }
+        score = 0;
+        timeTaken =0;
+
+    }
 
     private PopupDialog current = null;
     @Override

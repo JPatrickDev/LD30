@@ -49,7 +49,7 @@ public class Zombie extends Mob {
 
     @Override
     public void update(Level level) {
-
+        if(cooldown > 0)cooldown--;
         if(health <=0){
             level.entities.remove(this);
             InGameState.score+=10;
@@ -141,6 +141,8 @@ public class Zombie extends Mob {
         }
     }
 
+    int cooldown =0;
+
 
     public Point getRandomPoint(int nearX, int nearY) {
         nearX = nearX / 128;
@@ -196,8 +198,11 @@ public class Zombie extends Mob {
         g.drawImage(zombie, getX(), getY());
     }
 
+
+
     @Override
     public void notifyTouchedPlayer(Level parent) {
+        if(cooldown != 0)return;
             Player p = parent.p;
 
         for(int i = 0;i != 2;i++)
@@ -216,6 +221,8 @@ public class Zombie extends Mob {
             p.health -= 0.5;
 
         }
+
+        cooldown = 60;
 
     }
 }

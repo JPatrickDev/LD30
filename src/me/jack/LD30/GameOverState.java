@@ -50,12 +50,14 @@ public class GameOverState extends BasicGameState{
 
             Numbers.drawLarge((int)(InGameState.timeTaken/1000) + "",graphics,230,140);
         }
+
+        Text.drawELarge("SPACEBAR TO START AGAIN",graphics,200,500);
     }
 
     @Override
     public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int i) throws SlickException {
-        if(Keyboard.isKeyDown(Keyboard.KEY_RETURN)){
-
+        if(Keyboard.isKeyDown(Keyboard.KEY_SPACE)){
+                stateBasedGame.enterState(0);
         }
     }
 }
