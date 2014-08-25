@@ -15,8 +15,8 @@ public class Sounds {
 
 
     public static void init() throws SlickException {
-        hurt = new Sound("/res/hurt.wav");
-        portal = new Sound("/res/portal.wav");
-        health = new Sound("/res/health.wav");
+        hurt = new Sound("res/hurt.wav");
+        portal = new Sound("res/portal.wav");
+        health = new Sound("res/health.wav");
     }
 }

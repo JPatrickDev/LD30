@@ -24,7 +24,7 @@ public class MenuState extends BasicGameState{
     @Override
     public void init(GameContainer gameContainer, StateBasedGame stateBasedGame) throws SlickException {
         gameContainer.setShowFPS(false);
-        bg = new Image("/res/menu.png");
+        bg = new Image("res/menu.png");
 
         Numbers.init();
         Text.init();

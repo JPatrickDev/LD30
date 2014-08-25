@@ -27,7 +27,7 @@ public class Item {
     public static Item key;
     public static void init() throws SlickException {
 
-        Image i = new Image("/res/items.png");
+        Image i = new Image("res/items.png");
         i.setFilter(Image.FILTER_NEAREST);
         i = i.getScaledCopy(4f);
 

@@ -18,7 +18,7 @@ public class Numbers {
     public static void init() throws SlickException {
 
 
-        Image baseFont = new Image("/res/numbers.png");
+        Image baseFont = new Image("res/numbers.png");
         baseFont.setFilter(Image.FILTER_NEAREST);
         font = new SpriteSheet(baseFont, 8, 8);
         baseFont = baseFont.getScaledCopy(4f);

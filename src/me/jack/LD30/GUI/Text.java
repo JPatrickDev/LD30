@@ -17,8 +17,8 @@ public class Text {
     public static SpriteSheet eLarge;
 
     public static void init() throws SlickException {
-        font = new SpriteSheet("/res/font.png",8,8);
-        Image i = new Image("/res/font.png");
+        font = new SpriteSheet("res/font.png",8,8);
+        Image i = new Image("res/font.png");
         i.setFilter(Image.FILTER_NEAREST);
         largeFont = new SpriteSheet(i.getScaledCopy(2f),16,16);
         eLarge = new SpriteSheet(i.getScaledCopy(4f),32,32);

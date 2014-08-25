@@ -25,7 +25,7 @@ public class Zombie extends Mob {
 
         try {
             if (zombie == null) {
-                zombie = new Image("/res/zombie.png");
+                zombie = new Image("res/zombie.png");
                 zombie.setFilter(Image.FILTER_NEAREST);
                 zombie = zombie.getScaledCopy(4f);
             }

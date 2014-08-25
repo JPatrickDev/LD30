@@ -49,7 +49,7 @@ public class Player extends Mob {
         super(x, y);
         this.health = 20;
         try {
-            Image spritesheet = new Image("/res/player.png");
+            Image spritesheet = new Image("res/player.png");
             spritesheet.setFilter(Image.FILTER_NEAREST);
             spritesheet = spritesheet.getScaledCopy(4f);
             sprites = new SpriteSheet(spritesheet,64,64);

@@ -23,7 +23,7 @@ public class Tile {
 
 
     public static void load() throws SlickException {
-        Image s = new Image("/res/tiles.png");
+        Image s = new Image("res/tiles.png");
         s.setFilter(Image.FILTER_NEAREST);
                 s = s.getScaledCopy(8f);
         sprites = new SpriteSheet(s, 128, 128);

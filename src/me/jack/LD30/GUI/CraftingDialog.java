@@ -28,7 +28,7 @@ public class CraftingDialog extends PopupDialog {
     int pos = 0;
 
     public CraftingDialog() throws SlickException {
-        this.gui = new Image("/res/crafting.png");
+        this.gui = new Image("res/crafting.png");
     }
 
     @Override

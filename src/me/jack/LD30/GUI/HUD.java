@@ -18,7 +18,7 @@ public class HUD {
     private static Image halfHeart;
 
     public static void init() throws SlickException {
-        icons = new SpriteSheet(new Image("/res/icons.png"),16,16);
+        icons = new SpriteSheet(new Image("res/icons.png"),16,16);
         heart = icons.getSprite(0,0);
         halfHeart = icons.getSprite(1,0);
     }
